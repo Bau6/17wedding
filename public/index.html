@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Иван & Полина | Свадьба</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Главный экран -->
+<section class="hero">
+  <div class="overlay"></div>
+  <div class="hero-content">
+    <div class="ring-icon">💍</div>
+    <h1>Иван & Полина</h1>
+    <div class="date">17 августа 2026 года</div>
+    <p class="invite-text">Приглашаем вас разделить с нами самый важный день в нашей жизни</p>
+    <button class="rsvp-btn" onclick="scrollToRSVP()">Подтвердить присутствие</button>
+  </div>
+</section>
+
+<!-- Информация о событии -->
+<section class="event-info">
+  <h2>О событии</h2>
+  <div class="info-cards">
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>Дата</h3>
+      <p>17 августа 2026 года</p>
+      <p class="time">Сбор гостей: 15:00</p>
+      <p class="time">Торжество: 16:00</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📍</div>
+      <h3>Место</h3>
+      <p>Ресторан "Балканский замок"</p>
+      <p>г. Колпино, Балканская дорога, 10к2</p>
+      <button class="map-btn" onclick="openMap()">Открыть карту 🗺️</button>
+    </div>
+    <div class="card">
+      <div class="card-icon">💝</div>
+      <h3>Пожелания</h3>
+      <p>Пожалуйста, подтвердите свое присутствие до 1 мая 2026</p>
+      <p>Дресс-код: вечерний</p>
+    </div>
+  </div>
+</section>
+
+<!-- Расширенная форма RSVP -->
+<section id="rsvp" class="rsvp-form">
+  <div class="form-container">
+    <h2>Подтверждение присутствия</h2>
+    <p class="form-subtitle">Пожалуйста, ответьте на вопросы, чтобы мы могли подготовиться идеально</p>
+    <form id="weddingForm">
+      <!-- Блок 1: Личные данные -->
+      <div class="form-group">
+        <label>Ваше полное имя *</label>
+        <input type="text" id="name" placeholder="Иван Петров" required>
+      </div>
+
+      <!-- Блок 2: Статус присутствия -->
+      <div class="form-group">
+        <label>Вы сможете присутствовать? *</label>
+        <select id="attendanceStatus" required>
+          <option value="">Выберите вариант</option>
+          <option value="exactly">✅ Точно приду</option>
+          <option value="probably">🤔 Скорее всего да, но не точно</option>
+          <option value="no">❌ К сожалению, не смогу</option>
+        </select>
+      </div>
+
+      <!-- Блок 3: Один или с компанией -->
+      <div class="form-group" id="companionGroup" style="display: none;">
+        <label>Вы будете один или с парой/семьей?</label>
+        <select id="companionType">
+          <option value="alone">👤 Я один</option>
+          <option value="couple">👫 С партнёром/партнёршей</option>
+          <option value="family">👨‍👩‍👧‍👦 С семьёй (2+ гостя со мной)</option>
+        </select>
+      </div>
+
+      <!-- Блок 4: Количество гостей -->
+      <div class="form-group" id="guestsCountGroup" style="display: none;">
+        <label>Сколько человек вас всего (включая вас)?</label>
+        <input type="number" id="guestsCount" min="1" max="10" value="1">
+      </div>
+
+      <!-- Блок 5: Выбор блюд -->
+      <div class="form-group">
+        <label>🍽️ Какие блюда вы предпочитаете? (можно выбрать несколько)</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="dishes" value="meat"> 🥩 Мясное (говядина/свинина)</label>
+          <label><input type="checkbox" name="dishes" value="poultry"> 🍗 Птица (курица/утка)</label>
+          <label><input type="checkbox" name="dishes" value="fish"> 🐟 Рыба/морепродукты</label>
+          <label><input type="checkbox" name="dishes" value="vegan"> 🥦 Вегетарианское/веганское</label>
+          <label><input type="checkbox" name="dishes" value="any"> 😋 Без разницы, всё люблю</label>
+        </div>
+      </div>
+
+      <!-- Блок 6: Алкоголь -->
+      <div class="form-group">
+        <label>🍷 Какой алкоголь предпочитаете? (можно выбрать несколько)</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="alcohol" value="wine"> 🍷 Вино (красное/белое)</label>
+          <label><input type="checkbox" name="alcohol" value="champagne"> 🥂 Шампанское</label>
+          <label><input type="checkbox" name="alcohol" value="strong"> 🥃 Крепкие напитки (виски/водка)</label>
+          <label><input type="checkbox" name="alcohol" value="beer"> 🍺 Пиво</label>
+          <label><input type="checkbox" name="alcohol" value="no_alcohol"> 🧃 Не пью алкоголь (безалкогольное)</label>
+        </div>
+      </div>
+
+      <!-- Блок 7: Особые пожелания -->
+      <div class="form-group">
+        <label>Особые пожелания (аллергии, диета, комментарии)</label>
+        <textarea id="specialWishes" rows="2" placeholder="Например: аллергия на орехи, нужно детское кресло..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Отправить ответ ➤</button>
+      <div id="formMessage" class="form-message"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>С нетерпением ждем встречи!</p>
+  <p>Иван & Полина 💕</p>
+  <p class="footer-small">Создано с любовью</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
