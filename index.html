@@ -46,13 +46,13 @@
   </div>
 </section>
 
-<!-- Расширенная форма RSVP -->
+<!-- Форма RSVP -->
 <section id="rsvp" class="rsvp-form">
   <div class="form-container">
     <h2>Подтверждение присутствия</h2>
-    <p class="form-subtitle">Пожалуйста, ответьте на все вопросы, чтобы мы могли подготовиться идеально</p>
+    <p class="form-subtitle">Пожалуйста, ответьте на вопросы</p>
     <form id="weddingForm">
-      <!-- БЛОК 1: Личные данные -->
+      <!-- Личные данные -->
       <div class="form-group">
         <label>📝 Ваше полное имя *</label>
         <input type="text" id="name" placeholder="Иван Петров" required>
@@ -68,138 +68,65 @@
         <input type="tel" id="phone" placeholder="+7 (999) 123-45-67">
       </div>
 
-      <!-- БЛОК 2: Статус присутствия -->
+      <!-- Статус присутствия -->
       <div class="form-group">
         <label>✅ Вы сможете присутствовать? *</label>
         <select id="attendanceStatus" required>
           <option value="">Выберите вариант</option>
           <option value="exactly">✅ Точно приду</option>
-          <option value="probably">🤔 Скорее всего да, но не точно</option>
-          <option value="no">❌ К сожалению, не смогу</option>
+          <option value="probably">🤔 Скорее всего да</option>
+          <option value="no">❌ К сожалению, нет</option>
         </select>
       </div>
 
-      <!-- БЛОК 3: Один или с компанией -->
-      <div class="form-group" id="companionGroup" style="display: none;">
-        <label>👥 Вы будете один или с компанией?</label>
-        <select id="companionType">
-          <option value="alone">👤 Я один</option>
-          <option value="couple">👫 С партнёром/партнёршей</option>
-          <option value="family">👨‍👩‍👧‍👦 С семьёй (2+ человека)</option>
-          <option value="friends">👥 С друзьями</option>
-        </select>
-      </div>
-
-      <!-- БЛОК 4: Количество гостей -->
-      <div class="form-group" id="guestsCountGroup" style="display: none;">
-        <label>🔢 Сколько человек вас всего (включая вас)?</label>
+      <!-- Количество гостей -->
+      <div class="form-group" id="guestsGroup" style="display: none;">
+        <label>👥 Сколько человек вас всего (включая вас)?</label>
         <input type="number" id="guestsCount" min="1" max="20" value="1">
       </div>
 
-      <!-- БЛОК 5: Имена сопровождающих -->
-      <div class="form-group" id="companionNamesGroup" style="display: none;">
-        <label>👥 Имена ваших сопровождающих</label>
-        <textarea id="companionNames" rows="2" placeholder="Анна Петрова, Михаил Сидоров..."></textarea>
-      </div>
-
-      <!-- БЛОК 6: Блюда -->
-      <div class="form-group">
-        <label>🍽️ Какие блюда вы предпочитаете? *</label>
+      <!-- Блюда -->
+      <div class="form-group" id="dishesGroup" style="display: none;">
+        <label>🍽️ Какие блюда предпочитаете? *</label>
         <div class="checkbox-group">
           <label><input type="checkbox" name="dishes" value="meat"> 🥩 Мясное</label>
           <label><input type="checkbox" name="dishes" value="poultry"> 🍗 Птица</label>
           <label><input type="checkbox" name="dishes" value="fish"> 🐟 Рыба</label>
           <label><input type="checkbox" name="dishes" value="vegan"> 🥦 Вегетарианское</label>
-          <label><input type="checkbox" name="dishes" value="any"> 😋 Всё равно</label>
         </div>
       </div>
 
-      <!-- БЛОК 7: Алкоголь -->
-      <div class="form-group">
+      <!-- Алкоголь -->
+      <div class="form-group" id="alcoholGroup" style="display: none;">
         <label>🍷 Какой алкоголь предпочитаете? *</label>
         <div class="checkbox-group">
-          <label><input type="checkbox" name="alcohol" value="wine_red"> 🍷 Красное вино</label>
-          <label><input type="checkbox" name="alcohol" value="wine_white"> 🥂 Белое вино</label>
+          <label><input type="checkbox" name="alcohol" value="wine"> 🍷 Вино</label>
           <label><input type="checkbox" name="alcohol" value="champagne"> 🥂 Шампанское</label>
-          <label><input type="checkbox" name="alcohol" value="vodka"> 🥃 Водка</label>
-          <label><input type="checkbox" name="alcohol" value="no_alcohol"> 🧃 Не пью</label>
+          <label><input type="checkbox" name="alcohol" value="strong"> 🥃 Крепкое</label>
+          <label><input type="checkbox" name="alcohol" value="no"> 🧃 Не пью</label>
         </div>
       </div>
 
-      <!-- БЛОК 8: Музыка -->
-      <div class="form-group">
-        <label>🎵 Какую музыку вы предпочитаете?</label>
-        <select id="musicPreference">
-          <option value="">Выберите вариант</option>
-          <option value="pop">🎤 Поп-музыка</option>
-          <option value="rock">🎸 Рок</option>
-          <option value="disco">🕺 Диско</option>
-          <option value="all">🎶 Всё подряд</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>🎧 Какие песни хотели бы услышать?</label>
-        <textarea id="favoriteSongs" rows="2" placeholder="ABBA - Dancing Queen, Руки Вверх - Крошка моя..."></textarea>
-      </div>
-
-      <!-- БЛОК 9: Размещение -->
-      <div class="form-group" id="accommodationGroup" style="display: none;">
-        <label>🏨 Потребуется ли вам размещение в гостинице?</label>
-        <select id="accommodation">
-          <option value="no">🏠 Нет</option>
-          <option value="yes_single">🛏️ Одноместный номер</option>
-          <option value="yes_double">🛏️🛏️ Двухместный номер</option>
-        </select>
-      </div>
-
-      <!-- БЛОК 10: Аллергии -->
-      <div class="form-group">
-        <label>⚠️ Аллергии или особенности питания</label>
-        <textarea id="allergies" rows="2" placeholder="Аллергия на орехи, безлактозная диета..."></textarea>
-      </div>
-
-      <!-- БЛОК 11: Пожелания -->
-      <div class="form-group">
+      <!-- Пожелания -->
+      <div class="form-group" id="wishesGroup" style="display: none;">
         <label>💌 Ваши пожелания молодожёнам</label>
         <textarea id="wishes" rows="3" placeholder="Напишите тёплые слова..."></textarea>
       </div>
 
-      <!-- БЛОК 12: Откуда узнали -->
-      <div class="form-group">
-        <label>📢 Откуда узнали о свадьбе?</label>
-        <select id="referral">
-          <option value="">Выберите вариант</option>
-          <option value="personal">💌 Личное приглашение</option>
-          <option value="social">📱 Соцсети</option>
-          <option value="friends">👥 От друзей</option>
-          <option value="other">🤷 Другое</option>
-        </select>
-      </div>
-
-      <!-- БЛОК 13: Фотосессия -->
-      <div class="form-group">
-        <label>📸 Хотите участвовать в общей фотосессии?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="photoshoot" value="yes"> Да</label>
-          <label><input type="radio" name="photoshoot" value="no"> Нет</label>
-          <label><input type="radio" name="photoshoot" value="maybe"> Возможно</label>
-        </div>
-      </div>
-
-      <!-- БЛОК 14: Тост -->
-      <div class="form-group">
-        <label>🥂 Планируете произнести тост?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="toast" value="yes"> Да</label>
-          <label><input type="radio" name="toast" value="maybe"> Возможно</label>
-          <label><input type="radio" name="toast" value="no"> Нет</label>
-        </div>
+      <!-- Аллергии -->
+      <div class="form-group" id="allergiesGroup" style="display: none;">
+        <label>⚠️ Аллергии или особенности питания</label>
+        <textarea id="allergies" rows="2" placeholder="Если есть аллергии, напишите..."></textarea>
       </div>
 
       <button type="submit" class="submit-btn" id="submitBtn">Отправить ответ ➤</button>
       <div id="formMessage" class="form-message"></div>
     </form>
+
+    <!-- Кнопка для просмотра ответов (только для организаторов) -->
+    <div class="admin-section" style="margin-top: 30px; text-align: center; border-top: 1px solid #eee; padding-top: 20px;">
+      <button type="button" class="admin-btn" onclick="showResponses()" style="background: #667eea; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer;">📋 Показать все ответы (админ)</button>
+    </div>
   </div>
 </section>
 

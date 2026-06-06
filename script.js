@@ -10,225 +10,221 @@ function openMap() {
     window.open('https://yandex.ru/maps/?text=Санкт-Петербург, Колпино, Балканская дорога, 10к2с1', '_blank');
 }
 
-// ВСЕ КОД ОБЕРНУТ В DOMContentLoaded, ЧТОБЫ HTML ТОЧНО ЗАГРУЗИЛСЯ
-document.addEventListener('DOMContentLoaded', function() {
+// Функция для сохранения ответа в localStorage
+function saveGuestToLocalStorage(guestData) {
+    // Получаем существующие ответы
+    let responses = localStorage.getItem('wedding_responses');
+    let responsesArray = [];
 
-    // DOM элементы
-    const attendanceSelect = document.getElementById('attendanceStatus');
-    const companionGroup = document.getElementById('companionGroup');
-    const guestsCountGroup = document.getElementById('guestsCountGroup');
-    const companionNamesGroup = document.getElementById('companionNamesGroup');
-    const accommodationGroup = document.getElementById('accommodationGroup');
-    const companionTypeSelect = document.getElementById('companionType');
-    const guestsCountInput = document.getElementById('guestsCount');
-    const weddingForm = document.getElementById('weddingForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const formMessage = document.getElementById('formMessage');
+    if (responses) {
+        try {
+            responsesArray = JSON.parse(responses);
+        } catch(e) {
+            responsesArray = [];
+        }
+    }
 
-    // Проверка существования элементов (для отладки)
-    if (!attendanceSelect) {
-        console.error('Ошибка: элемент attendanceSelect не найден! Проверьте id="attendanceStatus" в HTML');
+    // Добавляем новый ответ
+    responsesArray.push(guestData);
+
+    // Сохраняем обратно
+    localStorage.setItem('wedding_responses', JSON.stringify(responsesArray, null, 2));
+
+    // Также сохраняем отдельно как последний ответ
+    localStorage.setItem('last_response', JSON.stringify(guestData, null, 2));
+
+    return responsesArray.length;
+}
+
+// Функция для показа всех ответов (админская)
+function showResponses() {
+    const responses = localStorage.getItem('wedding_responses');
+    if (!responses) {
+        alert('Пока нет ни одного ответа');
         return;
     }
 
-    // Управление видимостью полей
-    function toggleCompanionFields() {
-        const status = attendanceSelect.value;
-        if (status === 'exactly' || status === 'probably') {
-            if (companionGroup) companionGroup.style.display = 'block';
-            if (accommodationGroup) accommodationGroup.style.display = 'block';
-            updateGuestsCountVisibility();
-        } else {
-            if (companionGroup) companionGroup.style.display = 'none';
-            if (guestsCountGroup) guestsCountGroup.style.display = 'none';
-            if (companionNamesGroup) companionNamesGroup.style.display = 'none';
-            if (accommodationGroup) accommodationGroup.style.display = 'none';
-        }
-    }
+    try {
+        const data = JSON.parse(responses);
+        const count = data.length;
 
-    function updateGuestsCountVisibility() {
-        if (!companionTypeSelect || !guestsCountInput) return;
-        const companionVal = companionTypeSelect.value;
-        if (companionVal === 'alone') {
-            if (guestsCountGroup) guestsCountGroup.style.display = 'none';
-            if (companionNamesGroup) companionNamesGroup.style.display = 'none';
-            guestsCountInput.value = 1;
-        } else {
-            if (guestsCountGroup) guestsCountGroup.style.display = 'block';
-            if (companionNamesGroup) companionNamesGroup.style.display = 'block';
-            if (companionVal === 'couple') {
-                guestsCountInput.value = 2;
-            } else if (companionVal === 'family' || companionVal === 'friends') {
-                if (parseInt(guestsCountInput.value) < 2) guestsCountInput.value = 2;
+        // Создаём окно с ответами
+        let message = `📊 Всего ответов: ${count}\n\n`;
+        data.forEach((guest, index) => {
+            message += `${index + 1}. ${guest.fullName} - ${guest.attendance === 'exactly' ? '✅ Точно придёт' : guest.attendance === 'probably' ? '🤔 Скорее всего' : '❌ Не придёт'}\n`;
+            if (guest.totalGuests > 1) {
+                message += `   👥 С ним ${guest.totalGuests} человек\n`;
             }
-        }
+        });
+        message += `\n💾 Все данные сохранены в localStorage браузера`;
+        message += `\n📋 Чтобы скачать JSON, откройте консоль (F12) и введите: downloadData()`;
+
+        alert(message);
+
+        // Также выводим в консоль для разработчиков
+        console.log('Все ответы гостей:', data);
+    } catch(e) {
+        alert('Ошибка при чтении данных');
+    }
+}
+
+// Функция для скачивания JSON файла (для администратора)
+function downloadData() {
+    const responses = localStorage.getItem('wedding_responses');
+    if (!responses) {
+        alert('Нет данных для скачивания');
+        return;
     }
 
-    // Слушатели
-    if (attendanceSelect) {
-        attendanceSelect.addEventListener('change', toggleCompanionFields);
+    const data = JSON.parse(responses);
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `wedding_guests_${new Date().toISOString().slice(0,19)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Добавляем функцию скачивания в глобальный объект
+window.downloadData = downloadData;
+
+// Ждём загрузки страницы
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Страница загружена, инициализация формы...');
+
+    const attendanceSelect = document.getElementById('attendanceStatus');
+    const guestsGroup = document.getElementById('guestsGroup');
+    const dishesGroup = document.getElementById('dishesGroup');
+    const alcoholGroup = document.getElementById('alcoholGroup');
+    const wishesGroup = document.getElementById('wishesGroup');
+    const allergiesGroup = document.getElementById('allergiesGroup');
+    const form = document.getElementById('weddingForm');
+    const messageDiv = document.getElementById('formMessage');
+
+    if (!attendanceSelect) {
+        console.error('Элемент attendanceStatus не найден!');
+        return;
     }
-    if (companionTypeSelect) {
-        companionTypeSelect.addEventListener('change', updateGuestsCountVisibility);
+
+    // Функция показа/скрытия полей в зависимости от статуса присутствия
+    function toggleFormFields() {
+        const status = attendanceSelect.value;
+        const show = (status === 'exactly' || status === 'probably');
+
+        if (guestsGroup) guestsGroup.style.display = show ? 'block' : 'none';
+        if (dishesGroup) dishesGroup.style.display = show ? 'block' : 'none';
+        if (alcoholGroup) alcoholGroup.style.display = show ? 'block' : 'none';
+        if (wishesGroup) wishesGroup.style.display = show ? 'block' : 'none';
+        if (allergiesGroup) allergiesGroup.style.display = show ? 'block' : 'none';
     }
+
+    attendanceSelect.addEventListener('change', toggleFormFields);
 
     function showMessage(msg, type) {
-        if (!formMessage) return;
-        formMessage.textContent = msg;
-        formMessage.className = `form-message ${type}`;
+        if (!messageDiv) return;
+        messageDiv.textContent = msg;
+        messageDiv.className = `form-message ${type}`;
         setTimeout(() => {
-            if (formMessage) {
-                formMessage.textContent = '';
-                formMessage.className = 'form-message';
+            if (messageDiv) {
+                messageDiv.textContent = '';
+                messageDiv.className = 'form-message';
             }
-        }, 5000);
+        }, 4000);
     }
 
-    function getSelectedValues(name) {
-        const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
-        return Array.from(checkboxes).map(cb => cb.value);
-    }
-
-    function getSelectedRadioValue(name) {
-        const radio = document.querySelector(`input[name="${name}"]:checked`);
-        return radio ? radio.value : null;
-    }
-
-    let isSubmitting = false;
-
-    // Отправка формы
-    if (weddingForm) {
-        weddingForm.addEventListener('submit', async function(e) {
+    // Обработка отправки формы
+    if (form) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            if (isSubmitting) {
-                showMessage('⏳ Подождите, предыдущий ответ уже отправляется...', 'error');
+            const name = document.getElementById('name')?.value.trim();
+            const attendanceStatus = attendanceSelect.value;
+
+            if (!name) {
+                showMessage('Пожалуйста, укажите ваше имя', 'error');
                 return;
             }
 
-            const nameInput = document.getElementById('name');
-            const attendanceSelectEl = document.getElementById('attendanceStatus');
-
-            if (!nameInput || !attendanceSelectEl) {
-                showMessage('Ошибка: не найдены поля формы', 'error');
+            if (!attendanceStatus) {
+                showMessage('Пожалуйста, укажите, сможете ли вы присутствовать', 'error');
                 return;
             }
 
-            const name = nameInput.value.trim();
-            const attendanceStatus = attendanceSelectEl.value;
-
-            if (!name || !attendanceStatus) {
-                showMessage('Пожалуйста, укажите имя и статус присутствия', 'error');
-                return;
-            }
-
-            // Базовые поля
             const email = document.getElementById('email')?.value.trim() || '';
             const phone = document.getElementById('phone')?.value.trim() || '';
 
-            let companionType = null;
             let guestsCount = 1;
-            let companionNames = '';
-            let accommodation = 'no';
+            let selectedDishes = [];
+            let selectedAlcohol = [];
+            let wishes = '';
+            let allergies = '';
 
             if (attendanceStatus !== 'no') {
-                companionType = companionTypeSelect ? companionTypeSelect.value : 'alone';
-                guestsCount = guestsCountInput ? (parseInt(guestsCountInput.value) || 1) : 1;
-                if (guestsCount < 1) guestsCount = 1;
-                companionNames = document.getElementById('companionNames')?.value.trim() || '';
-                accommodation = document.getElementById('accommodation')?.value || 'no';
-            }
+                guestsCount = parseInt(document.getElementById('guestsCount')?.value) || 1;
 
-            const selectedDishes = getSelectedValues('dishes');
-            const selectedAlcohol = getSelectedValues('alcohol');
-            const musicPreference = document.getElementById('musicPreference')?.value || '';
-            const favoriteSongs = document.getElementById('favoriteSongs')?.value.trim() || '';
-            const allergies = document.getElementById('allergies')?.value.trim() || '';
-            const wishes = document.getElementById('wishes')?.value.trim() || '';
-            const referral = document.getElementById('referral')?.value || '';
-            const photoshoot = getSelectedRadioValue('photoshoot');
-            const toast = getSelectedRadioValue('toast');
+                // Сбор выбранных блюд
+                const dishesCheckboxes = document.querySelectorAll('input[name="dishes"]:checked');
+                selectedDishes = Array.from(dishesCheckboxes).map(cb => cb.value);
 
-            if (attendanceStatus !== 'no') {
+                // Сбор выбранного алкоголя
+                const alcoholCheckboxes = document.querySelectorAll('input[name="alcohol"]:checked');
+                selectedAlcohol = Array.from(alcoholCheckboxes).map(cb => cb.value);
+
+                wishes = document.getElementById('wishes')?.value.trim() || '';
+                allergies = document.getElementById('allergies')?.value.trim() || '';
+
                 if (selectedDishes.length === 0) {
-                    showMessage('Пожалуйста, выберите хотя бы одно предпочтение по блюдам', 'error');
+                    showMessage('Пожалуйста, выберите хотя бы одно блюдо', 'error');
                     return;
                 }
+
                 if (selectedAlcohol.length === 0) {
                     showMessage('Пожалуйста, выберите вариант с алкоголем', 'error');
                     return;
                 }
             }
 
+            // Формируем данные гостя
             const guestData = {
-                timestamp: new Date().toISOString(),
+                id: Date.now(),
+                timestamp: new Date().toLocaleString('ru-RU'),
                 fullName: name,
                 email: email,
                 phone: phone,
                 attendance: attendanceStatus,
-                companionType: companionType,
                 totalGuests: guestsCount,
-                companionNames: companionNames,
                 dishes: selectedDishes,
                 alcohol: selectedAlcohol,
-                musicPreference: musicPreference,
-                favoriteSongs: favoriteSongs,
-                accommodation: accommodation,
-                allergies: allergies,
                 wishes: wishes,
-                referral: referral,
-                photoshoot: photoshoot,
-                toast: toast
+                allergies: allergies
             };
 
-            isSubmitting = true;
-            const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Отправить';
-            if (submitBtn) {
-                submitBtn.innerHTML = '⏳ Отправка...';
-                submitBtn.disabled = true;
-                submitBtn.classList.add('disabled');
-            }
+            // Сохраняем в localStorage
+            const total = saveGuestToLocalStorage(guestData);
 
-            showMessage('📨 Отправка данных на сервер...', 'loading-message');
+            // Показываем успешное сообщение
+            showMessage(`✨ Спасибо, ${name}! Ваш ответ сохранён. Всего ответов: ${total} ✨`, 'success');
 
-            try {
-                const response = await fetch('save-guest.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(guestData)
-                });
+            // Очищаем форму
+            form.reset();
+            if (guestsGroup) guestsGroup.style.display = 'none';
+            if (dishesGroup) dishesGroup.style.display = 'none';
+            if (alcoholGroup) alcoholGroup.style.display = 'none';
+            if (wishesGroup) wishesGroup.style.display = 'none';
+            if (allergiesGroup) allergiesGroup.style.display = 'none';
+            if (attendanceSelect) attendanceSelect.value = '';
 
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    showMessage(`✨ Спасибо, ${name}! Ваш ответ успешно сохранён! ✨`, 'success');
-                    setTimeout(() => {
-                        if (weddingForm) weddingForm.reset();
-                        if (companionGroup) companionGroup.style.display = 'none';
-                        if (guestsCountGroup) guestsCountGroup.style.display = 'none';
-                        if (companionNamesGroup) companionNamesGroup.style.display = 'none';
-                        if (accommodationGroup) accommodationGroup.style.display = 'none';
-                        if (attendanceSelect) attendanceSelect.value = '';
-                    }, 2000);
-                } else {
-                    throw new Error(result.error || 'Ошибка при сохранении');
-                }
-            } catch (error) {
-                console.error('Ошибка:', error);
-                showMessage(`❌ Ошибка: ${error.message}. Попробуйте позже.`, 'error');
-            } finally {
-                isSubmitting = false;
-                if (submitBtn) {
-                    submitBtn.innerHTML = originalBtnText;
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('disabled');
-                }
-            }
+            // Выводим в консоль для администратора
+            console.log('Новый ответ от гостя:', guestData);
+            console.log('Все ответы в localStorage:', localStorage.getItem('wedding_responses'));
         });
     }
 
-    // Инициализация
-    toggleCompanionFields();
+    // Инициализация: скрываем поля, если статус не выбран
+    toggleFormFields();
+
+    console.log('Форма инициализирована. ready!');
 });
