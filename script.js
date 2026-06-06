@@ -136,7 +136,7 @@ document.getElementById('weddingForm').addEventListener('submit', async function
     showMessage('📨 Отправка данных на сервер...', 'loading-message');
 
     try {
-        const response = await fetch('/save-guest', {
+        const response = await fetch('save-guest.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
