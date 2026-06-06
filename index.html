@@ -52,23 +52,23 @@
     <h2>Подтверждение присутствия</h2>
     <p class="form-subtitle">Пожалуйста, ответьте на все вопросы, чтобы мы могли подготовиться идеально</p>
     <form id="weddingForm">
-      <!-- БЛОК 1: Личные данные (текст) -->
+      <!-- БЛОК 1: Личные данные -->
       <div class="form-group">
         <label>📝 Ваше полное имя *</label>
         <input type="text" id="name" placeholder="Иван Петров" required>
       </div>
 
       <div class="form-group">
-        <label>📧 Электронная почта (для отправки приглашения)</label>
+        <label>📧 Электронная почта</label>
         <input type="email" id="email" placeholder="ivan@example.com">
       </div>
 
       <div class="form-group">
-        <label>📱 Телефон (для связи)</label>
+        <label>📱 Телефон</label>
         <input type="tel" id="phone" placeholder="+7 (999) 123-45-67">
       </div>
 
-      <!-- БЛОК 2: Статус присутствия (один вариант) -->
+      <!-- БЛОК 2: Статус присутствия -->
       <div class="form-group">
         <label>✅ Вы сможете присутствовать? *</label>
         <select id="attendanceStatus" required>
@@ -79,7 +79,7 @@
         </select>
       </div>
 
-      <!-- БЛОК 3: Один или с компанией (один вариант) -->
+      <!-- БЛОК 3: Один или с компанией -->
       <div class="form-group" id="companionGroup" style="display: none;">
         <label>👥 Вы будете один или с компанией?</label>
         <select id="companionType">
@@ -90,120 +90,110 @@
         </select>
       </div>
 
-      <!-- БЛОК 4: Количество гостей (число) -->
+      <!-- БЛОК 4: Количество гостей -->
       <div class="form-group" id="guestsCountGroup" style="display: none;">
         <label>🔢 Сколько человек вас всего (включая вас)?</label>
         <input type="number" id="guestsCount" min="1" max="20" value="1">
-        <small class="field-note">Укажите общее количество человек, включая себя</small>
       </div>
 
-      <!-- БЛОК 5: Имена сопровождающих (текстовая область) -->
+      <!-- БЛОК 5: Имена сопровождающих -->
       <div class="form-group" id="companionNamesGroup" style="display: none;">
         <label>👥 Имена ваших сопровождающих</label>
         <textarea id="companionNames" rows="2" placeholder="Анна Петрова, Михаил Сидоров..."></textarea>
-        <small class="field-note">Укажите имена всех, кто приходит с вами</small>
       </div>
 
-      <!-- БЛОК 6: Выбор блюд (несколько вариантов) -->
+      <!-- БЛОК 6: Блюда -->
       <div class="form-group">
-        <label>🍽️ Какие блюда вы предпочитаете? (можно выбрать несколько)</label>
+        <label>🍽️ Какие блюда вы предпочитаете? *</label>
         <div class="checkbox-group">
-          <label><input type="checkbox" name="dishes" value="meat"> 🥩 Мясное (говядина/свинина)</label>
-          <label><input type="checkbox" name="dishes" value="poultry"> 🍗 Птица (курица/утка)</label>
-          <label><input type="checkbox" name="dishes" value="fish"> 🐟 Рыба/морепродукты</label>
-          <label><input type="checkbox" name="dishes" value="vegan"> 🥦 Вегетарианское/веганское</label>
-          <label><input type="checkbox" name="dishes" value="any"> 😋 Без разницы, всё люблю</label>
+          <label><input type="checkbox" name="dishes" value="meat"> 🥩 Мясное</label>
+          <label><input type="checkbox" name="dishes" value="poultry"> 🍗 Птица</label>
+          <label><input type="checkbox" name="dishes" value="fish"> 🐟 Рыба</label>
+          <label><input type="checkbox" name="dishes" value="vegan"> 🥦 Вегетарианское</label>
+          <label><input type="checkbox" name="dishes" value="any"> 😋 Всё равно</label>
         </div>
       </div>
 
-      <!-- БЛОК 7: Алкоголь (несколько вариантов) -->
+      <!-- БЛОК 7: Алкоголь -->
       <div class="form-group">
-        <label>🍷 Какой алкоголь предпочитаете? (можно выбрать несколько)</label>
+        <label>🍷 Какой алкоголь предпочитаете? *</label>
         <div class="checkbox-group">
           <label><input type="checkbox" name="alcohol" value="wine_red"> 🍷 Красное вино</label>
           <label><input type="checkbox" name="alcohol" value="wine_white"> 🥂 Белое вино</label>
           <label><input type="checkbox" name="alcohol" value="champagne"> 🥂 Шампанское</label>
           <label><input type="checkbox" name="alcohol" value="vodka"> 🥃 Водка</label>
-          <label><input type="checkbox" name="alcohol" value="whiskey"> 🥃 Виски</label>
-          <label><input type="checkbox" name="alcohol" value="cognac"> 🥃 Коньяк</label>
-          <label><input type="checkbox" name="alcohol" value="beer"> 🍺 Пиво</label>
-          <label><input type="checkbox" name="alcohol" value="cocktails"> 🍹 Коктейли</label>
-          <label><input type="checkbox" name="alcohol" value="no_alcohol"> 🧃 Не пью алкоголь</label>
+          <label><input type="checkbox" name="alcohol" value="no_alcohol"> 🧃 Не пью</label>
         </div>
       </div>
 
-      <!-- БЛОК 8: Музыкальные предпочтения (один вариант) -->
+      <!-- БЛОК 8: Музыка -->
       <div class="form-group">
-        <label>🎵 Какую музыку вы предпочитаете на танцполе?</label>
+        <label>🎵 Какую музыку вы предпочитаете?</label>
         <select id="musicPreference">
           <option value="">Выберите вариант</option>
           <option value="pop">🎤 Поп-музыка</option>
           <option value="rock">🎸 Рок</option>
-          <option value="disco">🕺 Диско / Ретро</option>
-          <option value="russian_pop">🎵 Русская эстрада</option>
-          <option value="all">🎶 Всё подряд, главное танцевать!</option>
+          <option value="disco">🕺 Диско</option>
+          <option value="all">🎶 Всё подряд</option>
         </select>
       </div>
 
-      <!-- БЛОК 9: Любимые песни (текст) -->
       <div class="form-group">
-        <label>🎧 Какие песни вы хотели бы услышать на свадьбе?</label>
-        <textarea id="favoriteSongs" rows="2" placeholder="Например: Руки Вверх - Крошка моя, ABBA - Dancing Queen..."></textarea>
-        <small class="field-note">Напишите 1-3 песни, которые поднимут вам настроение</small>
+        <label>🎧 Какие песни хотели бы услышать?</label>
+        <textarea id="favoriteSongs" rows="2" placeholder="ABBA - Dancing Queen, Руки Вверх - Крошка моя..."></textarea>
       </div>
 
-      <!-- БЛОК 10: Размещение гостей (один вариант) -->
+      <!-- БЛОК 9: Размещение -->
       <div class="form-group" id="accommodationGroup" style="display: none;">
         <label>🏨 Потребуется ли вам размещение в гостинице?</label>
         <select id="accommodation">
-          <option value="no">🏠 Нет, я местный/самостоятельно доберусь</option>
-          <option value="yes_single">🛏️ Да, одноместный номер</option>
-          <option value="yes_double">🛏️🛏️ Да, двухместный номер</option>
+          <option value="no">🏠 Нет</option>
+          <option value="yes_single">🛏️ Одноместный номер</option>
+          <option value="yes_double">🛏️🛏️ Двухместный номер</option>
         </select>
       </div>
 
-      <!-- БЛОК 11: Аллергии и диеты (текст) -->
+      <!-- БЛОК 10: Аллергии -->
       <div class="form-group">
-        <label>⚠️ Аллергии, непереносимость или особенности питания</label>
-        <textarea id="allergies" rows="2" placeholder="Аллергия на орехи, безлактозная диета, целиакия..."></textarea>
-        <small class="field-note">Это очень важно для нас, укажите всё, что нужно знать шеф-повару</small>
+        <label>⚠️ Аллергии или особенности питания</label>
+        <textarea id="allergies" rows="2" placeholder="Аллергия на орехи, безлактозная диета..."></textarea>
       </div>
 
-      <!-- БЛОК 12: Пожелания молодожёнам (текст) -->
+      <!-- БЛОК 11: Пожелания -->
       <div class="form-group">
-        <label>💌 Ваши пожелания или поздравления для нас</label>
-        <textarea id="wishes" rows="3" placeholder="Напишите тёплые слова, которые мы запомним на всю жизнь..."></textarea>
+        <label>💌 Ваши пожелания молодожёнам</label>
+        <textarea id="wishes" rows="3" placeholder="Напишите тёплые слова..."></textarea>
       </div>
 
-      <!-- БЛОК 13: Откуда узнали о свадьбе (один вариант) -->
+      <!-- БЛОК 12: Откуда узнали -->
       <div class="form-group">
-        <label>📢 Откуда вы узнали о нашей свадьбе?</label>
+        <label>📢 Откуда узнали о свадьбе?</label>
         <select id="referral">
           <option value="">Выберите вариант</option>
           <option value="personal">💌 Личное приглашение</option>
-          <option value="social">📱 Социальные сети</option>
-          <option value="friends">👥 От друзей/родственников</option>
+          <option value="social">📱 Соцсети</option>
+          <option value="friends">👥 От друзей</option>
           <option value="other">🤷 Другое</option>
         </select>
       </div>
 
-      <!-- БЛОК 14: Фотосессия (один вариант) -->
+      <!-- БЛОК 13: Фотосессия -->
       <div class="form-group">
-        <label>📸 Хотите ли вы участвовать в общей фотосессии?</label>
+        <label>📸 Хотите участвовать в общей фотосессии?</label>
         <div class="radio-group">
-          <label><input type="radio" name="photoshoot" value="yes"> Да, с удовольствием</label>
-          <label><input type="radio" name="photoshoot" value="no"> Нет, стесняюсь</label>
-          <label><input type="radio" name="photoshoot" value="maybe"> Только если недолго</label>
+          <label><input type="radio" name="photoshoot" value="yes"> Да</label>
+          <label><input type="radio" name="photoshoot" value="no"> Нет</label>
+          <label><input type="radio" name="photoshoot" value="maybe"> Возможно</label>
         </div>
       </div>
 
-      <!-- БЛОК 15: Тост (один вариант) -->
+      <!-- БЛОК 14: Тост -->
       <div class="form-group">
-        <label>🥂 Планируете ли вы произнести тост?</label>
+        <label>🥂 Планируете произнести тост?</label>
         <div class="radio-group">
-          <label><input type="radio" name="toast" value="yes"> Да, обязательно</label>
-          <label><input type="radio" name="toast" value="maybe"> Возможно, если будет настроение</label>
-          <label><input type="radio" name="toast" value="no"> Нет, лучше послушаю других</label>
+          <label><input type="radio" name="toast" value="yes"> Да</label>
+          <label><input type="radio" name="toast" value="maybe"> Возможно</label>
+          <label><input type="radio" name="toast" value="no"> Нет</label>
         </div>
       </div>
 
