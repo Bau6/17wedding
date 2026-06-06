@@ -51,11 +51,12 @@
   <div class="form-container">
     <h2>Подтверждение присутствия</h2>
     <p class="form-subtitle">Пожалуйста, ответьте на вопросы</p>
+
     <form id="weddingForm">
       <!-- Личные данные -->
       <div class="form-group">
         <label>📝 Ваше полное имя *</label>
-        <input type="text" id="name" placeholder="Иван Петров" required>
+        <input type="text" id="name" placeholder="Иван Петров">
       </div>
 
       <div class="form-group">
@@ -71,7 +72,7 @@
       <!-- Статус присутствия -->
       <div class="form-group">
         <label>✅ Вы сможете присутствовать? *</label>
-        <select id="attendanceStatus" required>
+        <select id="attendanceStatus">
           <option value="">Выберите вариант</option>
           <option value="exactly">✅ Точно приду</option>
           <option value="probably">🤔 Скорее всего да</option>
@@ -79,13 +80,13 @@
         </select>
       </div>
 
-      <!-- Количество гостей -->
+      <!-- Количество гостей (показывается только при exactly/probably) -->
       <div class="form-group" id="guestsGroup" style="display: none;">
         <label>👥 Сколько человек вас всего (включая вас)?</label>
         <input type="number" id="guestsCount" min="1" max="20" value="1">
       </div>
 
-      <!-- Блюда -->
+      <!-- Блюда (показывается только при exactly/probably) -->
       <div class="form-group" id="dishesGroup" style="display: none;">
         <label>🍽️ Какие блюда предпочитаете? *</label>
         <div class="checkbox-group">
@@ -96,7 +97,7 @@
         </div>
       </div>
 
-      <!-- Алкоголь -->
+      <!-- Алкоголь (показывается только при exactly/probably) -->
       <div class="form-group" id="alcoholGroup" style="display: none;">
         <label>🍷 Какой алкоголь предпочитаете? *</label>
         <div class="checkbox-group">
@@ -107,25 +108,26 @@
         </div>
       </div>
 
-      <!-- Пожелания -->
+      <!-- Пожелания (показывается только при exactly/probably) -->
       <div class="form-group" id="wishesGroup" style="display: none;">
         <label>💌 Ваши пожелания молодожёнам</label>
         <textarea id="wishes" rows="3" placeholder="Напишите тёплые слова..."></textarea>
       </div>
 
-      <!-- Аллергии -->
+      <!-- Аллергии (показывается только при exactly/probably) -->
       <div class="form-group" id="allergiesGroup" style="display: none;">
         <label>⚠️ Аллергии или особенности питания</label>
-        <textarea id="allergies" rows="2" placeholder="Если есть аллергии, напишите..."></textarea>
+        <textarea id="allergies" rows="2" placeholder="Например: аллергия на орехи, безлактозная диета..."></textarea>
       </div>
 
       <button type="submit" class="submit-btn" id="submitBtn">Отправить ответ ➤</button>
       <div id="formMessage" class="form-message"></div>
     </form>
 
-    <!-- Кнопка для просмотра ответов (только для организаторов) -->
+    <!-- Админ-панель -->
     <div class="admin-section" style="margin-top: 30px; text-align: center; border-top: 1px solid #eee; padding-top: 20px;">
-      <button type="button" class="admin-btn" onclick="showResponses()" style="background: #667eea; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer;">📋 Показать все ответы (админ)</button>
+      <button type="button" class="admin-btn" onclick="showGuestResponses()" style="background: #667eea; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; margin: 5px;">📋 Показать ответы</button>
+      <button type="button" class="admin-btn" onclick="downloadGuestData()" style="background: #4CAF50; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; margin: 5px;">💾 Скачать JSON</button>
     </div>
   </div>
 </section>

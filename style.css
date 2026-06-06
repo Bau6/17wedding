@@ -373,3 +373,16 @@ footer p {
     background: #5a4fc0 !important;
     transform: scale(1.02);
 }
+
+.admin-btn {
+    transition: transform 0.2s, background 0.2s;
+}
+
+.admin-btn:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+}
+
+.admin-btn:active {
+    transform: scale(0.98);
+}
