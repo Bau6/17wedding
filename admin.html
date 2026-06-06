@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель | Свадьба Ивана и Полины</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      background: white;
+      border-radius: 20px;
+      padding: 25px 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .header h1 {
+      color: #333;
+      font-size: 28px;
+    }
+
+    .header h1 span {
+      color: #ff6b6b;
+    }
+
+    .stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      background: #f8f9fa;
+      padding: 10px 20px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #ff6b6b;
+    }
+
+    .stat-card .label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* Кнопки действий */
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5a4fc0;
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #ff5252;
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #45a049;
+      transform: translateY(-2px);
+    }
+
+    .btn-warning {
+      background: #ff9800;
+      color: white;
+    }
+
+    .btn-warning:hover {
+      background: #e68900;
+      transform: translateY(-2px);
+    }
+
+    /* Таблица */
+    .table-container {
+      background: white;
+      border-radius: 20px;
+      overflow-x: auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #f8f9fa;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      border-bottom: 2px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+    }
+
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+
+    tr:hover {
+      background: #fef9f0;
+    }
+
+    .guest-name {
+      font-weight: 600;
+      color: #ff6b6b;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-exactly {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-probably {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-no {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .action-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .action-icon {
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform 0.2s;
+    }
+
+    .action-icon:hover {
+      transform: scale(1.2);
+    }
+
+    .edit-icon { color: #667eea; }
+    .delete-icon { color: #ff6b6b; }
+
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .modal-content input,
+    .modal-content select,
+    .modal-content textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    /* Пустое состояние */
+    .empty-state {
+      text-align: center;
+      padding: 60px;
+      color: #999;
+    }
+
+    /* Подвал */
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      color: white;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      th, td {
+        font-size: 12px;
+        padding: 8px;
+      }
+      .header {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>👑 Админ-панель <span>Свадьба Ивана и Полины</span></h1>
+    <div class="stats" id="stats">
+      <div class="stat-card">
+        <div class="number" id="totalCount">0</div>
+        <div class="label">Всего ответов</div>
+      </div>
+      <div class="stat-card">
+        <div class="number" id="exactlyCount">0</div>
+        <div class="label">Точно придут</div>
+      </div>
+      <div class="stat-card">
+        <div class="number" id="probablyCount">0</div>
+        <div class="label">Возможно</div>
+      </div>
+      <div class="stat-card">
+        <div class="number" id="noCount">0</div>
+        <div class="label">Отказы</div>
+      </div>
+      <div class="stat-card">
+        <div class="number" id="totalPeople">0</div>
+        <div class="label">Всего человек</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-buttons" style="margin-bottom: 20px;">
+    <button class="btn btn-success" onclick="downloadJSON()">💾 Скачать JSON</button>
+    <button class="btn btn-primary" onclick="copyToClipboard()">📋 Копировать в буфер</button>
+    <button class="btn btn-warning" onclick="clearAllData()">🗑️ Очистить все данные</button>
+    <button class="btn btn-primary" onclick="refreshTable()">🔄 Обновить</button>
+  </div>
+
+  <div class="table-container">
+    <table id="guestsTable">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Дата</th>
+        <th>Имя</th>
+        <th>Email</th>
+        <th>Телефон</th>
+        <th>Статус</th>
+        <th>Гостей</th>
+        <th>Блюда</th>
+        <th>Алкоголь</th>
+        <th>Пожелания</th>
+        <th>Аллергии</th>
+        <th>Действия</th>
+      </tr>
+      </thead>
+      <tbody id="tableBody">
+      <tr>
+        <td colspan="12" class="empty-state">Загрузка данных...</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer">
+    <p>🔒 Данные хранятся в localStorage вашего браузера</p>
+  </div>
+</div>
+
+<!-- Модальное окно редактирования -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <h3>✏️ Редактирование записи</h3>
+    <input type="text" id="editName" placeholder="Имя">
+    <input type="email" id="editEmail" placeholder="Email">
+    <input type="tel" id="editPhone" placeholder="Телефон">
+    <select id="editAttendance">
+      <option value="exactly">✅ Точно приду</option>
+      <option value="probably">🤔 Скорее всего да</option>
+      <option value="no">❌ Не приду</option>
+    </select>
+    <input type="number" id="editGuestsCount" placeholder="Количество гостей" min="1">
+    <textarea id="editWishes" rows="2" placeholder="Пожелания"></textarea>
+    <textarea id="editAllergies" rows="2" placeholder="Аллергии"></textarea>
+    <div class="modal-buttons">
+      <button class="btn btn-primary" onclick="saveEdit()">💾 Сохранить</button>
+      <button class="btn btn-danger" onclick="closeModal()">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentEditId = null;
+  let allGuests = [];
+
+  // Загрузка данных из localStorage
+  function loadData() {
+    const data = localStorage.getItem('wedding_guests_data');
+    if (data) {
+      try {
+        allGuests = JSON.parse(data);
+        if (!Array.isArray(allGuests)) allGuests = [];
+      } catch(e) {
+        allGuests = [];
+      }
+    } else {
+      allGuests = [];
+    }
+    updateStats();
+    renderTable();
+  }
+
+  // Обновление статистики
+  function updateStats() {
+    const total = allGuests.length;
+    const exactly = allGuests.filter(g => g.attendance === 'exactly').length;
+    const probably = allGuests.filter(g => g.attendance === 'probably').length;
+    const no = allGuests.filter(g => g.attendance === 'no').length;
+    const totalPeople = allGuests.reduce((sum, g) => sum + (g.guestsCount || 1), 0);
+
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('exactlyCount').textContent = exactly;
+    document.getElementById('probablyCount').textContent = probably;
+    document.getElementById('noCount').textContent = no;
+    document.getElementById('totalPeople').textContent = totalPeople;
+  }
+
+  // Получить статус на русском
+  function getStatusText(status) {
+    if (status === 'exactly') return '<span class="status-badge status-exactly">✅ Точно придёт</span>';
+    if (status === 'probably') return '<span class="status-badge status-probably">🤔 Возможно</span>';
+    return '<span class="status-badge status-no">❌ Не придёт</span>';
+  }
+
+  // Форматирование массивов
+  function formatArray(arr) {
+    if (!arr || !arr.length) return '-';
+    const labels = {
+      'meat': '🥩 Мясо',
+      'poultry': '🍗 Птица',
+      'fish': '🐟 Рыба',
+      'vegan': '🥦 Вегетарианское',
+      'wine': '🍷 Вино',
+      'champagne': '🥂 Шампанское',
+      'strong': '🥃 Крепкое',
+      'no': '🧃 Не пью'
+    };
+    return arr.map(item => labels[item] || item).join(', ');
+  }
+
+  // Рендер таблицы
+  function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    if (!allGuests.length) {
+      tbody.innerHTML = '<tr><td colspan="12" class="empty-state">📭 Нет данных. Пригласите гостей заполнить форму!</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = allGuests.map((guest, index) => {
+      const dishesHtml = guest.dishes ? formatArray(guest.dishes) : '-';
+      const alcoholHtml = guest.alcohol ? formatArray(guest.alcohol) : '-';
+
+      return `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td style="font-size: 12px;">${guest.timestamp || '-'}</td>
+                    <td class="guest-name">${escapeHtml(guest.name)}</td>
+                    <td>${escapeHtml(guest.email || '-')}</td>
+                    <td>${escapeHtml(guest.phone || '-')}</td>
+                    <td>${getStatusText(guest.attendance)}</td>
+                    <td>${guest.guestsCount || 1}</td>
+                    <td style="max-width: 150px;">${dishesHtml}</td>
+                    <td style="max-width: 150px;">${alcoholHtml}</td>
+                    <td style="max-width: 200px;">${escapeHtml(guest.wishes || '-')}</td>
+                    <td style="max-width: 200px;">${escapeHtml(guest.allergies || '-')}</td>
+                    <td>
+                        <div class="action-icons">
+                            <span class="action-icon edit-icon" onclick="openEditModal(${guest.id})" title="Редактировать">✏️</span>
+                            <span class="action-icon delete-icon" onclick="deleteGuest(${guest.id})" title="Удалить">🗑️</span>
+                        </div>
+                    </td>
+                </tr>
+            `;
+    }).join('');
+  }
+
+  // Экранирование HTML
+  function escapeHtml(text) {
+    if (!text) return text;
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Сохранение данных в localStorage
+  function saveToLocalStorage() {
+    localStorage.setItem('wedding_guests_data', JSON.stringify(allGuests, null, 2));
+    updateStats();
+    renderTable();
+  }
+
+  // Удаление записи
+  function deleteGuest(id) {
+    if (confirm('Вы уверены, что хотите удалить эту запись?')) {
+      allGuests = allGuests.filter(g => g.id !== id);
+      saveToLocalStorage();
+      showToast('Запись удалена', 'success');
+    }
+  }
+
+  // Полная очистка
+  function clearAllData() {
+    if (confirm('⚠️ ВНИМАНИЕ! Это действие удалит ВСЕ ответы гостей без возможности восстановления. Продолжить?')) {
+      if (confirm('Вы уверены? Данные будут удалены навсегда!')) {
+        allGuests = [];
+        saveToLocalStorage();
+        showToast('Все данные очищены', 'warning');
+      }
+    }
+  }
+
+  // Открытие модального окна для редактирования
+  function openEditModal(id) {
+    const guest = allGuests.find(g => g.id === id);
+    if (!guest) return;
+
+    currentEditId = id;
+    document.getElementById('editName').value = guest.name || '';
+    document.getElementById('editEmail').value = guest.email || '';
+    document.getElementById('editPhone').value = guest.phone || '';
+    document.getElementById('editAttendance').value = guest.attendance || 'exactly';
+    document.getElementById('editGuestsCount').value = guest.guestsCount || 1;
+    document.getElementById('editWishes').value = guest.wishes || '';
+    document.getElementById('editAllergies').value = guest.allergies || '';
+
+    document.getElementById('editModal').style.display = 'flex';
+  }
+
+  // Сохранение изменений
+  function saveEdit() {
+    const index = allGuests.findIndex(g => g.id === currentEditId);
+    if (index === -1) return;
+
+    allGuests[index] = {
+      ...allGuests[index],
+      name: document.getElementById('editName').value.trim(),
+      email: document.getElementById('editEmail').value.trim(),
+      phone: document.getElementById('editPhone').value.trim(),
+      attendance: document.getElementById('editAttendance').value,
+      guestsCount: parseInt(document.getElementById('editGuestsCount').value) || 1,
+      wishes: document.getElementById('editWishes').value.trim(),
+      allergies: document.getElementById('editAllergies').value.trim(),
+      editedAt: new Date().toLocaleString('ru-RU')
+    };
+
+    saveToLocalStorage();
+    closeModal();
+    showToast('Запись обновлена', 'success');
+  }
+
+  function closeModal() {
+    document.getElementById('editModal').style.display = 'none';
+    currentEditId = null;
+  }
+
+  // Скачать JSON
+  function downloadJSON() {
+    const data = JSON.stringify(allGuests, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `wedding_guests_${new Date().toISOString().slice(0, 19)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('JSON файл скачан', 'success');
+  }
+
+  // Копирование в буфер обмена
+  async function copyToClipboard() {
+    const data = JSON.stringify(allGuests, null, 2);
+    try {
+      await navigator.clipboard.writeText(data);
+      showToast('Данные скопированы в буфер обмена', 'success');
+    } catch(e) {
+      alert('Не удалось скопировать');
+    }
+  }
+
+  // Обновить таблицу
+  function refreshTable() {
+    loadData();
+    showToast('Данные обновлены', 'success');
+  }
+
+  // Всплывающее уведомление
+  function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#4CAF50' : type === 'warning' ? '#ff9800' : '#667eea'};
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            z-index: 1000;
+            animation: fadeInOut 2s ease;
+            font-weight: 500;
+        `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+  }
+
+  // Добавляем анимацию
+  const style = document.createElement('style');
+  style.textContent = `
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(100px); }
+            15% { opacity: 1; transform: translateX(0); }
+            85% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(100px); }
+        }
+    `;
+  document.head.appendChild(style);
+
+  // Закрытие модального окна по клику вне
+  window.onclick = function(event) {
+    const modal = document.getElementById('editModal');
+    if (event.target === modal) {
+      closeModal();
+    }
+  };
+
+  // Загрузка при старте
+  loadData();
+</script>
+</body>
+</html>
