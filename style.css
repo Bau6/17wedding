@@ -11,6 +11,7 @@ body {
     background: #fef9f0;
 }
 
+/* Hero секция */
 .hero {
     position: relative;
     height: 100vh;
@@ -157,13 +158,14 @@ body {
     color: white;
 }
 
+/* Форма */
 .rsvp-form {
     padding: 80px 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .form-container {
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
     background: white;
     padding: 40px;
@@ -195,6 +197,13 @@ body {
     color: #444;
 }
 
+.field-note {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+}
+
 form input, form select, form textarea {
     width: 100%;
     padding: 12px;
@@ -210,14 +219,14 @@ form input:focus, form select:focus, form textarea:focus {
     border-color: #ff6b6b;
 }
 
-.checkbox-group {
+.checkbox-group, .radio-group {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 8px;
 }
 
-.checkbox-group label {
+.checkbox-group label, .radio-group label {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -229,11 +238,11 @@ form input:focus, form select:focus, form textarea:focus {
     transition: background 0.2s;
 }
 
-.checkbox-group label:hover {
+.checkbox-group label:hover, .radio-group label:hover {
     background: #ffebeb;
 }
 
-.checkbox-group input {
+.checkbox-group input, .radio-group input {
     width: auto;
     margin-right: 4px;
 }
@@ -319,7 +328,7 @@ footer p {
     .form-container {
         padding: 25px;
     }
-    .checkbox-group {
+    .checkbox-group, .radio-group {
         flex-direction: column;
         gap: 8px;
     }

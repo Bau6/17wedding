@@ -10,38 +10,51 @@ function openMap() {
     window.open('https://yandex.ru/maps/?text=Санкт-Петербург, Колпино, Балканская дорога, 10к2с1', '_blank');
 }
 
-// Управление полями
+// DOM элементы
 const attendanceSelect = document.getElementById('attendanceStatus');
 const companionGroup = document.getElementById('companionGroup');
 const guestsCountGroup = document.getElementById('guestsCountGroup');
+const companionNamesGroup = document.getElementById('companionNamesGroup');
+const accommodationGroup = document.getElementById('accommodationGroup');
 const companionTypeSelect = document.getElementById('companionType');
 const guestsCountInput = document.getElementById('guestsCount');
 
+// Управление видимостью полей в зависимости от статуса присутствия
 function toggleCompanionFields() {
     const status = attendanceSelect.value;
     if (status === 'exactly' || status === 'probably') {
         companionGroup.style.display = 'block';
+        accommodationGroup.style.display = 'block';
         updateGuestsCountVisibility();
     } else {
         companionGroup.style.display = 'none';
         guestsCountGroup.style.display = 'none';
+        companionNamesGroup.style.display = 'none';
+        accommodationGroup.style.display = 'none';
     }
 }
 
+// Управление полями при выборе "один/с компанией"
 function updateGuestsCountVisibility() {
     const companionVal = companionTypeSelect.value;
     if (companionVal === 'alone') {
         guestsCountGroup.style.display = 'none';
+        companionNamesGroup.style.display = 'none';
         guestsCountInput.value = 1;
-    } else if (companionVal === 'couple') {
+    } else {
         guestsCountGroup.style.display = 'block';
-        guestsCountInput.value = 2;
-    } else if (companionVal === 'family') {
-        guestsCountGroup.style.display = 'block';
-        if (parseInt(guestsCountInput.value) < 2) guestsCountInput.value = 2;
+        companionNamesGroup.style.display = 'block';
+        if (companionVal === 'couple') {
+            guestsCountInput.value = 2;
+        } else if (companionVal === 'family') {
+            if (parseInt(guestsCountInput.value) < 2) guestsCountInput.value = 2;
+        } else if (companionVal === 'friends') {
+            if (parseInt(guestsCountInput.value) < 2) guestsCountInput.value = 2;
+        }
     }
 }
 
+// Слушатели событий
 if (attendanceSelect) {
     attendanceSelect.addEventListener('change', toggleCompanionFields);
 }
@@ -49,6 +62,7 @@ if (companionTypeSelect) {
     companionTypeSelect.addEventListener('change', updateGuestsCountVisibility);
 }
 
+// Показать сообщение пользователю
 function showMessage(msg, type) {
     const messageDiv = document.getElementById('formMessage');
     messageDiv.textContent = msg;
@@ -61,13 +75,21 @@ function showMessage(msg, type) {
     }, 5000);
 }
 
+// Получить выбранные значения чекбоксов
 function getSelectedValues(name) {
     const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
     return Array.from(checkboxes).map(cb => cb.value);
 }
 
+// Получить выбранное значение радио-кнопки
+function getSelectedRadioValue(name) {
+    const radio = document.querySelector(`input[name="${name}"]:checked`);
+    return radio ? radio.value : null;
+}
+
 let isSubmitting = false;
 
+// Отправка формы
 document.getElementById('weddingForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
@@ -84,21 +106,37 @@ document.getElementById('weddingForm').addEventListener('submit', async function
         return;
     }
 
+    // Базовые поля
+    const email = document.getElementById('email').value.trim() || '';
+    const phone = document.getElementById('phone').value.trim() || '';
+
     let companionType = null;
     let guestsCount = 1;
-    let selectedDishes = [];
-    let selectedAlcohol = [];
-    let specialWishes = '';
+    let companionNames = '';
+    let accommodation = 'no';
 
+    // Дополнительные поля для подтвердивших
     if (attendanceStatus !== 'no') {
         companionType = companionTypeSelect.value;
         guestsCount = parseInt(guestsCountInput.value) || 1;
         if (guestsCount < 1) guestsCount = 1;
+        companionNames = document.getElementById('companionNames').value.trim() || '';
+        accommodation = document.getElementById('accommodation').value;
+    }
 
-        selectedDishes = getSelectedValues('dishes');
-        selectedAlcohol = getSelectedValues('alcohol');
-        specialWishes = document.getElementById('specialWishes').value.trim();
+    // Выборы
+    const selectedDishes = getSelectedValues('dishes');
+    const selectedAlcohol = getSelectedValues('alcohol');
+    const musicPreference = document.getElementById('musicPreference').value || '';
+    const favoriteSongs = document.getElementById('favoriteSongs').value.trim() || '';
+    const allergies = document.getElementById('allergies').value.trim() || '';
+    const wishes = document.getElementById('wishes').value.trim() || '';
+    const referral = document.getElementById('referral').value || '';
+    const photoshoot = getSelectedRadioValue('photoshoot');
+    const toast = getSelectedRadioValue('toast');
 
+    // Валидация для подтвердивших
+    if (attendanceStatus !== 'no') {
         if (selectedDishes.length === 0) {
             showMessage('Пожалуйста, выберите хотя бы одно предпочтение по блюдам', 'error');
             return;
@@ -107,25 +145,31 @@ document.getElementById('weddingForm').addEventListener('submit', async function
             showMessage('Пожалуйста, выберите вариант с алкоголем', 'error');
             return;
         }
-    } else {
-        companionType = 'absent';
-        guestsCount = 0;
-        selectedDishes = [];
-        selectedAlcohol = [];
-        specialWishes = document.getElementById('specialWishes').value.trim() || 'Не сможет присутствовать';
     }
 
+    // Сбор всех данных
     const guestData = {
         timestamp: new Date().toISOString(),
         fullName: name,
+        email: email,
+        phone: phone,
         attendance: attendanceStatus,
         companionType: companionType,
         totalGuests: guestsCount,
+        companionNames: companionNames,
         dishes: selectedDishes,
         alcohol: selectedAlcohol,
-        specialWishes: specialWishes
+        musicPreference: musicPreference,
+        favoriteSongs: favoriteSongs,
+        accommodation: accommodation,
+        allergies: allergies,
+        wishes: wishes,
+        referral: referral,
+        photoshoot: photoshoot,
+        toast: toast
     };
 
+    // Отправка
     isSubmitting = true;
     const submitBtn = document.getElementById('submitBtn');
     const originalBtnText = submitBtn.innerHTML;
@@ -147,19 +191,21 @@ document.getElementById('weddingForm').addEventListener('submit', async function
         const result = await response.json();
 
         if (response.ok && result.success) {
-            showMessage(`✨ Спасибо, ${name}! Ваш ответ успешно сохранён. Мы учтём все пожелания! ✨`, 'success');
+            showMessage(`✨ Спасибо, ${name}! Ваш ответ успешно сохранён. Мы учтём все пожелания и обязательно ответим! ✨`, 'success');
             setTimeout(() => {
                 document.getElementById('weddingForm').reset();
                 companionGroup.style.display = 'none';
                 guestsCountGroup.style.display = 'none';
+                companionNamesGroup.style.display = 'none';
+                accommodationGroup.style.display = 'none';
                 if (attendanceSelect) attendanceSelect.value = '';
-            }, 1500);
+            }, 2000);
         } else {
             throw new Error(result.error || 'Ошибка при сохранении на сервере');
         }
     } catch (error) {
         console.error('Ошибка отправки:', error);
-        showMessage(`❌ Ошибка: ${error.message}. Попробуйте позже.`, 'error');
+        showMessage(`❌ Ошибка: ${error.message}. Пожалуйста, попробуйте позже или свяжитесь с нами напрямую.`, 'error');
     } finally {
         isSubmitting = false;
         submitBtn.innerHTML = originalBtnText;
@@ -168,4 +214,5 @@ document.getElementById('weddingForm').addEventListener('submit', async function
     }
 });
 
+// Инициализация
 toggleCompanionFields();
