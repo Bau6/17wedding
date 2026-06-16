@@ -24,11 +24,15 @@
 body {
     font-family: 'Inter', 'Segoe UI', sans-serif;
     background: #fff;
-    color: #1e1e1e;
+    color: #000000;
     line-height: 1.4;
     max-width: 800px;
     margin: 0 auto;
     position: relative;
+}
+
+h2 {
+    font-weight: 400;
 }
 
 /* ===== DESKTOP NOTIFICATION ===== */
@@ -52,7 +56,7 @@ body {
 }
 .desktop-notice__inner {
     max-width: 500px;
-    background: #1e1e1e;
+    background: #000000;
     padding: 48px 32px;
     border-radius: 32px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.6);
@@ -126,8 +130,8 @@ img {
 .hero__line {
     margin-top: 60px;
     width: 40px;
-    height: 4px;
-    border-top: 1px solid rgba(255,255,255,0.45);
+    height: 2px;
+    border-top: 2px solid rgba(255,255,255,0.45);
     margin-bottom: 0;
 }
 .hero__title {
@@ -191,8 +195,8 @@ img {
 .love-block__line {
     margin-top: 6px;
     width: 40px;
-    height: 4px;
-    border-top: 1px solid rgba(0, 0, 0, 0.45);
+    height: 2px;
+    border-top: 2px solid rgba(0, 0, 0, 0.45);
     margin-bottom: 0;
 }
 .love-block__text {
@@ -200,7 +204,7 @@ img {
     font-weight: 400;
     font-size: 12px;
     letter-spacing: 0.04em;
-    color: #1e1e1e;
+    color: #000000;
     margin-top: 12px;
     margin-bottom: 4px;
     text-transform: uppercase;
@@ -209,7 +213,7 @@ img {
     font-family: 'Valisca', serif;
     font-size: 35px;
     font-weight: normal;
-    color: #1e1e1e;
+    color: #000000;
     letter-spacing: 2px;
     margin-top: 0;
     line-height: 1.2;
@@ -231,10 +235,10 @@ img {
 }
 .red-banner__date {
     font-family: 'Inter', sans-serif;
-    font-weight: 400;
     font-size: 30px;
     margin-top: 10px;
     letter-spacing: 0.02em;
+    font-weight: bold;
 }
 .red-banner__text {
     font-family: 'Inter', sans-serif;
@@ -252,33 +256,34 @@ img {
     display: block;
     object-fit: cover;
     max-height: 300px;
+    padding-bottom: 55px;
 }
 
 /* ===== VENUE ===== */
 .venue {
     background: #F4F4F4;
-    padding: 80px 20px 40px;
+    padding: 80px 0 40px;
     text-align: center;
     margin-top: 0;
 }
 .venue__title {
     font-family: 'Valisca', serif;
     font-size: 25px;
-    color: #1e1e1e;
+    color: #000000;
     letter-spacing: 0.04em;
 }
 .venue__name {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 20px;
-    color: #1e1e1e;
+    color: #000000;
     margin-top: 10px;
 }
 .venue__addr {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 14px;
-    color: #1e1e1e;
+    color: #000000;
     margin-top: 10px;
 }
 .venue__link {
@@ -286,7 +291,7 @@ img {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 14px;
-    color: #1e1e1e;
+    color: #000000;
     text-decoration: underline;
     margin-top: 16px;
     margin-bottom: 40px;
@@ -296,7 +301,6 @@ img {
     max-width: 375px;
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 20px;
     touch-action: pan-y;
 }
 .carousel-track {
@@ -344,22 +348,22 @@ img {
 /* ===== TIMING ===== */
 .timing {
     background: #F4F4F4;
-    padding: 40px 20px 60px;
+    padding: 40px 25px 60px;
 }
 .timing__title {
     font-family: 'Valisca', serif;
     font-size: 25px;
     text-align: center;
-    color: #1e1e1e;
+    color: #000000;
     letter-spacing: 0.04em;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 .timing__sub {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
-    color: #1e1e1e;
+    color: #000000;
     max-width: 280px;
     margin: 0 auto 32px;
     letter-spacing: 0.02em;
@@ -367,7 +371,7 @@ img {
 .timing-item {
     display: flex;
     align-items: flex-start;
-    gap: 16px;
+    gap: 7px;
     margin-bottom: 28px;
     max-width: 340px;
     margin-left: auto;
@@ -385,16 +389,26 @@ img {
 .timing-item__time {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 18px;
-    color: #1e1e1e;
+    font-size: 14px;
+    color: #000000;
 }
 .timing-item__desc {
     font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #000000;
+    line-height: 1.4;
+}
+
+.timing-item__desc span {
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 14px;
-    color: #1e1e1e;
-    line-height: 1.4;
-    margin-top: 4px;
+    color: #000000;
+    display: block;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0;
 }
 
 /* ===== DETAILS ===== */
@@ -403,23 +417,32 @@ img {
     padding: 20px 20px 60px;
     text-align: center;
 }
+.details__title {
+    font-family: 'Valisca', serif;
+    font-weight: 400;
+    font-size: 25px;
+    text-align: center;
+    color: #000000;
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+}
 .details__line {
-    width: 45%;
-    height: 40px;
-    border-top: 1px solid rgba(255,255,255,0.45);
+    width: 40px;
+    height: 2px;
+    border-top: 2px solid rgba(0, 0, 0, 0.45);
     margin: 16px auto 0;
 }
 .details__text {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 14px;
-    color: #1e1e1e;
+    color: #000000;
     max-width: 320px;
-    margin: 20px auto;
+    margin: 14px auto;
     line-height: 1.6;
 }
 .details__text--bold {
-    font-weight: 600;
+    margin-bottom: 30px;
 }
 
 /* ===== FORM ===== */
@@ -431,15 +454,15 @@ img {
     font-family: 'Valisca', serif;
     font-size: 25px;
     text-align: center;
-    color: #1e1e1e;
+    color: #000000;
     letter-spacing: 0.04em;
 }
 .form-section__sub {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
-    color: #1e1e1e;
+    color: #000000;
     max-width: 300px;
     margin: 8px auto 24px;
     line-height: 1.5;
@@ -455,8 +478,8 @@ img {
     display: block;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    font-size: 13px;
-    color: #1e1e1e;
+    font-size: 16px;
+    color: #000000;
     margin-bottom: 4px;
 }
 .wedding-form input,
@@ -467,16 +490,9 @@ img {
     border: 1px solid #ccc;
     border-radius: 12px;
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     background: white;
     transition: 0.2s;
-}
-.wedding-form input:focus,
-.wedding-form select:focus,
-.wedding-form textarea:focus {
-    border-color: #C40E3A;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(196,14,58,0.15);
 }
 .wedding-form .radio-group {
     display: flex;
@@ -486,7 +502,7 @@ img {
 }
 .wedding-form .radio-group label {
     font-weight: 400;
-    font-size: 13px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -527,7 +543,7 @@ img {
     padding: 12px;
     border-radius: 12px;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     display: none;
 }
 .form-message.success {
@@ -542,9 +558,18 @@ img {
 }
 
 /* ===== FOOTER ===== */
+.footer__title {
+    font-family: 'Valisca', serif;
+    text-align: center;
+    color: #000000;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+    font-size: 35px;
+    padding-bottom: 40px;
+}
 .footer-block {
     background: #F4F4F4;
-    padding: 40px 20px 24px;
+    padding: 0 20px 24px;
     text-align: center;
 }
 .footer-block__image {
@@ -558,7 +583,7 @@ img {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 12px;
-    color: #1e1e1e;
+    color: #000000;
     opacity: 0.6;
     letter-spacing: 0.02em;
 }

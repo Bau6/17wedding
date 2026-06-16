@@ -7,9 +7,6 @@
     var total = 3;
     var isDragging = false;
     var startPos = 0;
-    var currentTranslate = 0;
-    var prevTranslate = 0;
-    var animationID = 0;
     var startTime = 0;
 
     function goTo(index) {
@@ -28,7 +25,6 @@
         goTo(current + 1);
     }, 3000);
 
-    // Stop auto play on user interaction
     function stopAutoPlay() {
         clearInterval(autoPlayInterval);
         autoPlayInterval = setInterval(function() {
@@ -36,7 +32,7 @@
         }, 3000);
     }
 
-    // Touch events for mobile
+    // Touch events
     carousel.addEventListener('touchstart', function(e) {
         var touch = e.touches[0];
         startPos = touch.clientX;
@@ -75,7 +71,7 @@
         stopAutoPlay();
     }, { passive: true });
 
-    // Mouse events for desktop
+    // Mouse events
     carousel.addEventListener('mousedown', function(e) {
         isDragging = true;
         startPos = e.clientX;
@@ -119,7 +115,6 @@
         }
     });
 
-    // Dot click handlers
     dots.forEach(function(dot, i) {
         dot.addEventListener('click', function() {
             goTo(i);
@@ -127,7 +122,7 @@
         });
     });
 
-    // Form logic
+    // ===== FORM LOGIC =====
     var form = document.getElementById('weddingForm');
     var nameInput = document.getElementById('name');
     var attendanceRadios = document.querySelectorAll('input[name="attendance"]');
@@ -140,6 +135,16 @@
         });
     });
 
+    // Функция для получения выбранных чекбоксов
+    function getCheckedValues(name) {
+        var checkboxes = document.querySelectorAll('input[name="' + name + '"]:checked');
+        var values = [];
+        checkboxes.forEach(function(cb) {
+            values.push(cb.value);
+        });
+        return values;
+    }
+
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         var name = nameInput.value.trim();
@@ -147,6 +152,7 @@
             showMessage('Пожалуйста, укажите ваше имя', 'error');
             return;
         }
+
         var attendance = null;
         for (var i = 0; i < attendanceRadios.length; i++) {
             if (attendanceRadios[i].checked) {
@@ -160,14 +166,15 @@
         }
 
         var guest = {
+            id: Date.now(),
             name: name,
             attendance: attendance,
             allergy: document.getElementById('allergy') ? document.getElementById('allergy').value : '',
             food: document.getElementById('food') ? document.getElementById('food').value : '',
-            alcohol: document.querySelector('input[name="alcohol"]:checked') ? document.querySelector('input[name="alcohol"]:checked').value : '',
+            alcohol: getCheckedValues('alcohol'), // теперь массив
             photo: document.querySelector('input[name="photo"]:checked') ? document.querySelector('input[name="photo"]:checked').value : '',
             message: document.getElementById('message') ? document.getElementById('message').value : '',
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toLocaleString('ru-RU')
         };
 
         var all = JSON.parse(localStorage.getItem('wedding_guests_data') || '[]');
@@ -177,6 +184,12 @@
         showMessage('Спасибо, ' + name + '! Ваш ответ сохранён.', 'success');
         form.reset();
         extraFields.style.display = 'none';
+
+        // Сбрасываем чекбоксы
+        document.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
+            cb.checked = false;
+        });
+
         setTimeout(function() {
             messageDiv.className = 'form-message';
             messageDiv.style.display = 'none';
@@ -189,7 +202,71 @@
         messageDiv.style.display = 'block';
     }
 
-    // Desktop notice close
+    // ===== ФУНКЦИЯ ДЛЯ СКАЧИВАНИЯ JSON =====
+    window.downloadGuestData = function() {
+        var data = localStorage.getItem('wedding_guests_data');
+        if (!data) {
+            alert('Нет сохранённых данных');
+            return;
+        }
+        try {
+            var guests = JSON.parse(data);
+            if (!guests.length) {
+                alert('Нет данных для скачивания');
+                return;
+            }
+            var blob = new Blob([JSON.stringify(guests, null, 2)], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'guests_' + new Date().toISOString().slice(0, 10) + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch(e) {
+            alert('Ошибка при скачивании');
+        }
+    };
+
+    // ===== ФУНКЦИЯ ДЛЯ ПРОСМОТРА ОТВЕТОВ =====
+    window.showGuestResponses = function() {
+        var data = localStorage.getItem('wedding_guests_data');
+        if (!data) {
+            alert('Пока нет ни одного ответа');
+            return;
+        }
+        try {
+            var guests = JSON.parse(data);
+            if (!guests.length) {
+                alert('Список гостей пуст');
+                return;
+            }
+            var message = '📊 Всего ответов: ' + guests.length + '\n\n';
+            guests.forEach(function(guest, i) {
+                var statusText = '';
+                if (guest.attendance === 'exactly') statusText = '✅ Точно придёт';
+                else if (guest.attendance === 'probably') statusText = '🤔 Возможно придёт';
+                else statusText = '❌ Не придёт';
+
+                message += (i + 1) + '. ' + guest.name + ' - ' + statusText + '\n';
+                if (guest.guestsCount && guest.guestsCount > 1) {
+                    message += '   👥 Всего человек: ' + guest.guestsCount + '\n';
+                }
+                if (guest.alcohol && guest.alcohol.length) {
+                    message += '   🍷 Алкоголь: ' + guest.alcohol.join(', ') + '\n';
+                }
+            });
+            message += '\n💾 Данные сохранены в браузере';
+            message += '\n📥 Скачать JSON: введите в консоли downloadGuestData()';
+            alert(message);
+            console.log('Все ответы:', guests);
+        } catch(e) {
+            alert('Ошибка чтения данных');
+        }
+    };
+
+    // Desktop notice
     window.addEventListener('resize', function() {
         var notice = document.getElementById('desktopNotice');
         if (window.innerWidth <= 800) {
