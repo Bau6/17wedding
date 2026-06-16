@@ -2,135 +2,163 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Иван & Полина | Свадьба</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Иван & Полина · Свадьба</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- Главный экран -->
-<section class="hero">
-  <div class="overlay"></div>
-  <div class="hero-content">
-    <div class="ring-icon">💍</div>
-    <h1>Иван & Полина</h1>
-    <div class="date">17 августа 2026 года</div>
-    <p class="invite-text">Приглашаем вас разделить с нами самый важный день в нашей жизни</p>
-    <button class="rsvp-btn" onclick="scrollToRSVP()">Подтвердить присутствие</button>
+<!-- DESKTOP NOTICE -->
+<div class="desktop-notice" id="desktopNotice">
+  <div class="desktop-notice__inner">
+    <span>📱</span>
+    <p><strong>Этот сайт создан для мобильных устройств</strong></p>
+    <p>Пожалуйста, откройте его на смартфоне<br>или уменьшите ширину окна до 800px.</p>
+    <button class="close-notice" onclick="document.getElementById('desktopNotice').style.display='none'">Понял, показать всё равно</button>
   </div>
-</section>
+</div>
 
-<!-- Информация о событии -->
-<section class="event-info">
-  <h2>О событии</h2>
-  <div class="info-cards">
-    <div class="card">
-      <div class="card-icon">📅</div>
-      <h3>Дата</h3>
-      <p>17 августа 2026 года</p>
-      <p class="time">Сбор гостей: 15:00</p>
-      <p class="time">Торжество: 16:00</p>
+<div class="container">
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="hero__title">
+      <span>ЛЮ</span>
+      <span>БО</span>
+      <span>ВЬ</span>
+    </h1>
+    <div class="hero__line"></div>
+    <div class="hero__sub">Кто-то сказал, вроде, что я женился<br> не вовремя, Но не появись она,<br> не было бы и меня</div>
+  </section>
+
+  <!-- LOVE BLOCK -->
+  <section class="love-block">
+    <img src="images/loveis.svg" alt="love" class="love-block__image" loading="lazy">
+    <div class="love-block__line"></div>
+    <p class="love-block__text">А ТЕПЕРЬ история переходит на новую главу</p>
+    <h2 class="love-block__big">МЫ ЖЕНИМСЯ!</h2>
+  </section>
+
+  <!-- RED BANNER -->
+  <section class="red-banner">
+    <div class="red-banner__names">Иван & Полина</div>
+    <div class="red-banner__date">17 августа 2026</div>
+    <p class="red-banner__text">Дорогие гости! Мы рады пригласить вас разделить с нами это радостное событие!<br><br>В этот прекрасный день будем много веселиться, танцевать, вкусно кушать, да и просто наслаждаться моментом</p>
+    <img src="images/people.png" alt="people" class="red-banner__image" loading="lazy">
+  </section>
+
+  <!-- VENUE -->
+  <section class="venue">
+    <h2 class="venue__title">МЕСТО ПРОВЕДЕНИЯ</h2>
+    <div class="venue__name">СЕЗОНЫ SOCIAL CLUB</div>
+    <div class="venue__addr">Санкт-Петербург, ул. Рубинштейна, 40/11</div>
+    <a href="https://yandex.ru/maps/?text=Санкт-Петербург, ул. Рубинштейна, 40/11" target="_blank" class="venue__link">ПОСТРОИТЬ МАРШРУТ</a>
+
+    <div class="venue__carousel" id="carousel">
+      <div class="carousel-track" id="carouselTrack">
+        <img src="images/1.png" alt="venue 1" loading="lazy">
+        <img src="images/2.png" alt="venue 2" loading="lazy">
+        <img src="images/3.png" alt="venue 3" loading="lazy">
+      </div>
+      <div class="carousel-dots" id="carouselDots">
+        <span class="active" data-index="0"></span>
+        <span data-index="1"></span>
+        <span data-index="2"></span>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-icon">📍</div>
-      <h3>Место</h3>
-      <p>Ресторан "Балканский замок"</p>
-      <p>г. Колпино, Балканская дорога, 10к2</p>
-      <button class="map-btn" onclick="openMap()">Открыть карту 🗺️</button>
+  </section>
+
+  <!-- TIMING -->
+  <section class="timing">
+    <h2 class="timing__title">ТАЙМИНГ</h2>
+    <p class="timing__sub">Все мероприятие будет проходить на единой локации. Все для нашего общего удобства и комфорта</p>
+
+    <div class="timing-item">
+      <img src="images/1.svg" alt="icon" class="timing-item__icon" loading="lazy">
+      <div class="timing-item__content">
+        <div class="timing-item__time">16:30</div>
+        <div class="timing-item__desc">СБОР ГОСТЕЙ<br>Настройка на праздник, выдыхаем, что успели</div>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-icon">💝</div>
-      <h3>Пожелания</h3>
-      <p>Пожалуйста, подтвердите свое присутствие до 1 мая 2026</p>
-      <p>Дресс-код: вечерний</p>
+    <div class="timing-item">
+      <img src="images/2.svg" alt="icon" class="timing-item__icon" loading="lazy">
+      <div class="timing-item__content">
+        <div class="timing-item__time">17:00</div>
+        <div class="timing-item__desc">ТОРЖЕСТВЕННАЯ ЧАСТЬ<br>Церемония и поздравления</div>
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- Форма RSVP -->
-<section id="rsvp" class="rsvp-form">
-  <div class="form-container">
-    <h2>Подтверждение присутствия</h2>
-    <p class="form-subtitle">Пожалуйста, ответьте на вопросы</p>
-
-    <form id="weddingForm">
-      <!-- Личные данные -->
-      <div class="form-group">
-        <label>📝 Ваше полное имя *</label>
-        <input type="text" id="name" placeholder="Иван Петров">
+    <div class="timing-item">
+      <img src="images/3.svg" alt="icon" class="timing-item__icon" loading="lazy">
+      <div class="timing-item__content">
+        <div class="timing-item__time">18:30</div>
+        <div class="timing-item__desc">ФУРШЕТ И БАНКЕТ<br>Вкусные угощения и тосты</div>
       </div>
-
-      <div class="form-group">
-        <label>📧 Электронная почта</label>
-        <input type="email" id="email" placeholder="ivan@example.com">
+    </div>
+    <div class="timing-item">
+      <img src="images/4.svg" alt="icon" class="timing-item__icon" loading="lazy">
+      <div class="timing-item__content">
+        <div class="timing-item__time">21:00</div>
+        <div class="timing-item__desc">ТАНЦЫ И ВЕЧЕРИНКА<br>Зажигаем до утра!</div>
       </div>
+    </div>
+  </section>
 
-      <div class="form-group">
-        <label>📱 Телефон</label>
-        <input type="tel" id="phone" placeholder="+7 (999) 123-45-67">
+  <!-- DETAILS -->
+  <section class="details">
+    <div class="details__line"></div>
+    <p class="details__text">Наденьте свой любимый наряд. Тот, в котором вам будет максимально приятно находиться на празднике.</p>
+    <p class="details__text">Избегайте ярких и кислотных цветов, не надевайте одежду красного и белого цветов. Лучше отдать предпочтение спокойным цветам и оттенкам.</p>
+    <p class="details__text details__text--bold">В общем, ждем вас нарядными и довольными!</p>
+    <div class="details__line"></div>
+    <p class="details__text">Нам бы хотелось, чтобы в этот день сердца были лёгкими, души - открытыми, настроение - праздничным, а подарки - упакованными в конверты :)</p>
+  </section>
+
+  <!-- FORM -->
+  <section class="form-section">
+    <h2 class="form-section__title">АНКЕТА</h2>
+    <p class="form-section__sub">Просьба подтвердить свое присутствие до 17.07. Если вы идете с парой, то заполните анкету на каждого по отдельности</p>
+
+    <form class="wedding-form" id="weddingForm">
+      <div class="field">
+        <label>Ваше имя и первая буква фамилии *</label>
+        <input type="text" id="name" placeholder="Например: Иван П." required>
       </div>
-
-      <!-- Статус присутствия -->
-      <div class="form-group">
-        <label>✅ Вы сможете присутствовать? *</label>
-        <select id="attendanceStatus">
-          <option value="">Выберите вариант</option>
-          <option value="exactly">✅ Точно приду</option>
-          <option value="probably">🤔 Скорее всего да</option>
-          <option value="no">❌ К сожалению, нет</option>
-        </select>
-      </div>
-
-      <!-- Количество гостей (показывается только при exactly/probably) -->
-      <div class="form-group" id="guestsGroup" style="display: none;">
-        <label>👥 Сколько человек вас всего (включая вас)?</label>
-        <input type="number" id="guestsCount" min="1" max="20" value="1">
-      </div>
-
-      <!-- Блюда (показывается только при exactly/probably) -->
-      <div class="form-group" id="dishesGroup" style="display: none;">
-        <label>🍽️ Какие блюда предпочитаете? *</label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="dishes" value="meat"> 🥩 Мясное</label>
-          <label><input type="checkbox" name="dishes" value="poultry"> 🍗 Птица</label>
-          <label><input type="checkbox" name="dishes" value="fish"> 🐟 Рыба</label>
-          <label><input type="checkbox" name="dishes" value="vegan"> 🥦 Вегетарианское</label>
+      <div class="field">
+        <label>Подтвердите ваше присутствие *</label>
+        <div class="radio-group">
+          <label><input type="radio" name="attendance" value="exactly"> Точно приду</label>
+          <label><input type="radio" name="attendance" value="no"> Не приду</label>
         </div>
       </div>
-
-      <!-- Алкоголь (показывается только при exactly/probably) -->
-      <div class="form-group" id="alcoholGroup" style="display: none;">
-        <label>🍷 Какой алкоголь предпочитаете? *</label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="alcohol" value="wine"> 🍷 Вино</label>
-          <label><input type="checkbox" name="alcohol" value="champagne"> 🥂 Шампанское</label>
-          <label><input type="checkbox" name="alcohol" value="strong"> 🥃 Крепкое</label>
-          <label><input type="checkbox" name="alcohol" value="no"> 🧃 Не пью</label>
+      <div class="field" id="extraFields" style="display:none;">
+        <label>Есть ли у вас аллергия? Если да, то на что именно?</label>
+        <input type="text" id="allergy" placeholder="Нет / на орехи...">
+        <label style="margin-top:12px;">Едите ли вы мясо? Есть ли ограничения?</label>
+        <input type="text" id="food" placeholder="Да, всё / Только рыба...">
+        <label style="margin-top:12px;">Какой алкоголь предпочитаете?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="alcohol" value="wine"> Вино</label>
+          <label><input type="radio" name="alcohol" value="champagne"> Шампанское</label>
         </div>
+        <label style="margin-top:12px;">Любите ли вы фотографироваться?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="photo" value="yes"> Да!</label>
+          <label><input type="radio" name="photo" value="mood"> По настроению</label>
+          <label><input type="radio" name="photo" value="if"> Только если надо</label>
+          <label><input type="radio" name="photo" value="no"> Совсем нет</label>
+        </div>
+        <label style="margin-top:12px;">Место для того, вдруг хотите что-то написать / спросить ...</label>
+        <textarea id="message" rows="3" placeholder="Ваши пожелания или вопросы"></textarea>
       </div>
-
-      <!-- Пожелания (показывается только при exactly/probably) -->
-      <div class="form-group" id="wishesGroup" style="display: none;">
-        <label>💌 Ваши пожелания молодожёнам</label>
-        <textarea id="wishes" rows="3" placeholder="Напишите тёплые слова..."></textarea>
-      </div>
-
-      <!-- Аллергии (показывается только при exactly/probably) -->
-      <div class="form-group" id="allergiesGroup" style="display: none;">
-        <label>⚠️ Аллергии или особенности питания</label>
-        <textarea id="allergies" rows="2" placeholder="Например: аллергия на орехи, безлактозная диета..."></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn" id="submitBtn">Отправить ответ ➤</button>
+      <button type="submit" class="submit-btn">ОТПРАВИТЬ</button>
       <div id="formMessage" class="form-message"></div>
     </form>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <p>С нетерпением ждем встречи!</p>
-  <p>Иван & Полина 💕</p>
-  <p class="footer-small">Создано с любовью</p>
-</footer>
+  <!-- FOOTER -->
+  <footer class="footer-block">
+    <img src="images/footer.png" alt="footer" class="footer-block__image" loading="lazy">
+    <div class="footer-block__credit">Иван & Полина ❤️</div>
+  </footer>
+</div>
 
 <script src="script.js"></script>
 </body>
