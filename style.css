@@ -494,32 +494,187 @@ img {
     background: white;
     transition: 0.2s;
 }
-.wedding-form .radio-group {
+.wedding-form input:focus,
+.wedding-form select:focus,
+.wedding-form textarea:focus {
+    border-color: #C40E3A;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(196, 14, 58, 0.15);
+}
+
+/* ===== RADIO & CHECKBOX GROUPS ===== */
+.wedding-form .radio-group,
+.wedding-form .checkbox-group {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 4px;
 }
-.wedding-form .radio-group label {
+
+.wedding-form .radio-group label,
+.wedding-form .checkbox-group label {
     font-weight: 400;
     font-size: 16px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     background: white;
-    padding: 6px 14px;
+    padding: 8px 16px;
     border-radius: 30px;
-    border: 1px solid #ddd;
+    border: 2px solid #e0e0e0;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.25s ease;
+    user-select: none;
+    position: relative;
 }
-.wedding-form .radio-group label:hover {
-    background: #fce8ec;
+
+.wedding-form .radio-group label:hover,
+.wedding-form .checkbox-group label:hover {
+    border-color: #C40E3A;
+    background: #fff5f7;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(196, 14, 58, 0.15);
 }
-.wedding-form .radio-group input {
-    width: auto;
+
+.wedding-form .radio-group label:active,
+.wedding-form .checkbox-group label:active {
+    transform: scale(0.97);
+}
+
+/* Скрываем стандартные инпуты */
+.wedding-form .radio-group input[type="radio"],
+.wedding-form .checkbox-group input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
     margin: 0;
+    padding: 0;
 }
+
+/* Кастомный индикатор для радио */
+.wedding-form .radio-group input[type="radio"] + span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+    background: white;
+    position: relative;
+}
+
+.wedding-form .radio-group input[type="radio"]:checked + span {
+    border-color: #C40E3A;
+}
+
+.wedding-form .radio-group input[type="radio"]:checked + span::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: #C40E3A;
+    border-radius: 50%;
+    transition: all 0.25s ease;
+    transform: scale(1);
+}
+
+.wedding-form .radio-group input[type="radio"]:not(:checked) + span::after {
+    transform: scale(0);
+}
+
+/* Кастомный индикатор для чекбокса */
+.wedding-form .checkbox-group input[type="checkbox"] + span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+    background: white;
+    position: relative;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.wedding-form .checkbox-group input[type="checkbox"]:checked + span {
+    background: #C40E3A;
+    border-color: #C40E3A;
+}
+
+.wedding-form .checkbox-group input[type="checkbox"]:checked + span::after {
+    content: "✓";
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.wedding-form .checkbox-group input[type="checkbox"]:not(:checked) + span::after {
+    content: "";
+}
+
+/* Активное состояние для радио и чекбоксов */
+.wedding-form .radio-group label:has(input:checked),
+.wedding-form .checkbox-group label:has(input:checked) {
+    background: #C40E3A;
+    color: white;
+    border-color: #C40E3A;
+}
+
+.wedding-form .radio-group label:has(input:checked) span,
+.wedding-form .checkbox-group label:has(input:checked) span {
+    border-color: white !important;
+    background: white !important;
+}
+
+.wedding-form .radio-group label:has(input:checked) span::after {
+    background: #C40E3A !important;
+}
+
+.wedding-form .checkbox-group label:has(input:checked) span::after {
+    color: #C40E3A !important;
+}
+
+/* Специальный стиль для "Не приду" и "Не пью" */
+.wedding-form .radio-group label:has(input[value="no"]),
+.wedding-form .checkbox-group label:has(input[value="no"]) {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+.wedding-form .radio-group label:has(input[value="no"]:hover),
+.wedding-form .checkbox-group label:has(input[value="no"]:hover) {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
+.wedding-form .radio-group label:has(input[value="no"]:checked),
+.wedding-form .checkbox-group label:has(input[value="no"]:checked) {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.wedding-form .radio-group label:has(input[value="no"]:checked) span,
+.wedding-form .checkbox-group label:has(input[value="no"]:checked) span {
+    border-color: white !important;
+    background: white !important;
+}
+
+.wedding-form .radio-group label:has(input[value="no"]:checked) span::after {
+    background: #dc3545 !important;
+}
+
+.wedding-form .checkbox-group label:has(input[value="no"]:checked) span::after {
+    color: #dc3545 !important;
+}
+
+/* ===== SUBMIT BUTTON ===== */
 .wedding-form .submit-btn {
     background: #C40E3A;
     color: white;
@@ -537,7 +692,13 @@ img {
 .wedding-form .submit-btn:hover {
     background: #a00c2f;
     transform: scale(1.01);
+    box-shadow: 0 4px 20px rgba(196, 14, 58, 0.3);
 }
+.wedding-form .submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* ===== FORM MESSAGE ===== */
 .form-message {
     margin-top: 16px;
     padding: 12px;
@@ -550,11 +711,37 @@ img {
     display: block;
     background: #d4edda;
     color: #155724;
+    border: 1px solid #c3e6cb;
 }
 .form-message.error {
     display: block;
     background: #f8d7da;
     color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .wedding-form .radio-group label,
+    .wedding-form .checkbox-group label {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .wedding-form .radio-group input[type="radio"] + span,
+    .wedding-form .checkbox-group input[type="checkbox"] + span {
+        width: 18px;
+        height: 18px;
+    }
+
+    .wedding-form .radio-group input[type="radio"]:checked + span::after {
+        width: 8px;
+        height: 8px;
+    }
+
+    .wedding-form .checkbox-group input[type="checkbox"]:checked + span::after {
+        font-size: 12px;
+    }
 }
 
 /* ===== FOOTER ===== */
