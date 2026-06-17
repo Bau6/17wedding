@@ -810,7 +810,6 @@ img {
 @media (min-width: 401px) and (max-width: 500px) {
     .container {
         max-width: 100%;
-        padding: 0 16px;
     }
     .hero {
         min-height: 100vh;
