@@ -165,7 +165,7 @@ img {
     color: white;
     background: transparent;
     backdrop-filter: blur(2px);
-    padding: 16px 24px 0px 24px;
+    padding: 16px 0 0 0;
     border-radius: 60px;
     max-width: 100%;
     text-align: center;
@@ -179,7 +179,7 @@ img {
     background: #F4F4F4;
     border-radius: 175px 175px 0 0;
     margin-top: -190px;
-    padding: 135px 20px 136px;
+    padding: 135px 0 136px;
     position: relative;
     z-index: 2;
     display: flex;
