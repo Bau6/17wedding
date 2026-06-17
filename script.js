@@ -300,14 +300,4 @@
             alert('Ошибка чтения данных');
         }
     };
-
-    // Desktop notice
-    window.addEventListener('resize', function () {
-        var notice = document.getElementById('desktopNotice');
-        if (window.innerWidth <= 800) {
-            notice.style.display = 'none';
-        } else {
-            notice.style.display = 'flex';
-        }
-    });
 })();
