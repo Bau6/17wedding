@@ -385,8 +385,8 @@ img {
 }
 .timing-item__icon {
     flex: 42%;
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
     flex-shrink: 0;
     object-fit: contain;
 }
