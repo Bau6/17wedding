@@ -17,17 +17,17 @@ $jsonFile = __DIR__ . '/results.json';
 
 // Получаем данные из POST-запроса
 $rawData = file_get_contents('php://input');
-$newGuest = json_decode($rawData, true);
+$data = json_decode($rawData, true);
 
 // Проверяем, что данные получены
-if (!$newGuest || !isset($newGuest['name'])) {
+if (!$data) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Неверные данные']);
+    echo json_encode(['success' => false, 'error' => 'Неверный формат данных']);
     exit;
 }
 
-// Добавляем дату получения на сервере
-$newGuest['server_timestamp'] = date('Y-m-d H:i:s');
+// Определяем, что пришло: один гость или массив гостей
+$isArray = array_keys($data) === range(0, count($data) - 1);
 
 // Читаем существующие данные
 $existingData = [];
@@ -38,11 +38,33 @@ if (file_exists($jsonFile)) {
     }
 }
 
-// Добавляем нового гостя
-$existingData[] = $newGuest;
+if ($isArray) {
+    // Если пришёл массив — сохраняем его целиком (используется админкой)
+    $existingData = $data;
+} else {
+    // Если пришёл один гость — добавляем его в массив (используется формой)
+    // Проверяем обязательное поле
+    if (!isset($data['name'])) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'error' => 'Отсутствует имя гостя']);
+        exit;
+    }
+
+    // Добавляем дату получения на сервере
+    $data['server_timestamp'] = date('Y-m-d H:i:s');
+
+    // Добавляем нового гостя
+    $existingData[] = $data;
+}
 
 // Сохраняем обратно в файл (с красивым форматированием)
-file_put_contents($jsonFile, json_encode($existingData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+$result = file_put_contents($jsonFile, json_encode($existingData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+if ($result === false) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Не удалось сохранить файл']);
+    exit;
+}
 
 // Возвращаем успешный ответ
 echo json_encode([
@@ -50,4 +72,3 @@ echo json_encode([
     'message' => 'Данные сохранены',
     'total' => count($existingData)
 ]);
-?>
