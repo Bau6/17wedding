@@ -231,9 +231,10 @@ img {
 }
 .red-banner__names {
     font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 24px;
+    font-weight: 500;
+    font-size: 20px;
     letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 .red-banner__date {
     font-family: 'Inter', sans-serif;
@@ -276,7 +277,7 @@ img {
 }
 .venue__name {
     font-family: 'Inter', sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 20px;
     color: #000000;
     margin-top: 20px;
