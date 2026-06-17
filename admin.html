@@ -10,20 +10,16 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       padding: 20px;
     }
-
     .container {
       max-width: 1400px;
       margin: 0 auto;
     }
-
-    /* Header */
     .header {
       background: white;
       border-radius: 20px;
@@ -36,47 +32,39 @@
       flex-wrap: wrap;
       gap: 15px;
     }
-
     .header h1 {
       color: #333;
       font-size: 28px;
     }
-
     .header h1 span {
       color: #ff6b6b;
     }
-
     .stats {
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
     }
-
     .stat-card {
       background: #f8f9fa;
       padding: 10px 20px;
       border-radius: 15px;
       text-align: center;
     }
-
     .stat-card .number {
       font-size: 28px;
       font-weight: bold;
       color: #ff6b6b;
     }
-
     .stat-card .label {
       font-size: 12px;
       color: #666;
     }
-
-    /* Кнопки действий */
     .action-buttons {
       display: flex;
       gap: 15px;
       flex-wrap: wrap;
+      margin-bottom: 20px;
     }
-
     .btn {
       padding: 10px 20px;
       border: none;
@@ -86,60 +74,48 @@
       font-weight: 600;
       transition: all 0.3s;
     }
-
     .btn-primary {
       background: #667eea;
       color: white;
     }
-
     .btn-primary:hover {
       background: #5a4fc0;
       transform: translateY(-2px);
     }
-
     .btn-danger {
       background: #ff6b6b;
       color: white;
     }
-
     .btn-danger:hover {
       background: #ff5252;
       transform: translateY(-2px);
     }
-
     .btn-success {
       background: #4CAF50;
       color: white;
     }
-
     .btn-success:hover {
       background: #45a049;
       transform: translateY(-2px);
     }
-
     .btn-warning {
       background: #ff9800;
       color: white;
     }
-
     .btn-warning:hover {
       background: #e68900;
       transform: translateY(-2px);
     }
-
-    /* Таблица */
     .table-container {
       background: white;
       border-radius: 20px;
       overflow-x: auto;
       box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
     }
-
     th {
       background: #f8f9fa;
       padding: 15px;
@@ -150,22 +126,18 @@
       position: sticky;
       top: 0;
     }
-
     td {
       padding: 12px 15px;
       border-bottom: 1px solid #e0e0e0;
       vertical-align: top;
     }
-
     tr:hover {
       background: #fef9f0;
     }
-
     .guest-name {
       font-weight: 600;
       color: #ff6b6b;
     }
-
     .status-badge {
       display: inline-block;
       padding: 4px 10px;
@@ -173,41 +145,32 @@
       font-size: 12px;
       font-weight: 600;
     }
-
     .status-exactly {
       background: #d4edda;
       color: #155724;
     }
-
     .status-probably {
       background: #fff3cd;
       color: #856404;
     }
-
     .status-no {
       background: #f8d7da;
       color: #721c24;
     }
-
     .action-icons {
       display: flex;
       gap: 10px;
     }
-
     .action-icon {
       cursor: pointer;
       font-size: 18px;
       transition: transform 0.2s;
     }
-
     .action-icon:hover {
       transform: scale(1.2);
     }
-
     .edit-icon { color: #667eea; }
     .delete-icon { color: #ff6b6b; }
-
-    /* Модальное окно */
     .modal {
       display: none;
       position: fixed;
@@ -220,7 +183,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .modal-content {
       background: white;
       border-radius: 20px;
@@ -230,12 +192,10 @@
       max-height: 80vh;
       overflow-y: auto;
     }
-
     .modal-content h3 {
       margin-bottom: 20px;
       color: #333;
     }
-
     .modal-content input,
     .modal-content select,
     .modal-content textarea {
@@ -246,29 +206,42 @@
       border-radius: 8px;
       font-size: 14px;
     }
-
     .modal-buttons {
       display: flex;
       gap: 10px;
       justify-content: flex-end;
       margin-top: 20px;
     }
-
-    /* Пустое состояние */
     .empty-state {
       text-align: center;
       padding: 60px;
       color: #999;
     }
-
-    /* Подвал */
     .footer {
       margin-top: 30px;
       text-align: center;
       color: white;
       opacity: 0.8;
     }
-
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      z-index: 1000;
+      font-weight: 500;
+      animation: fadeInOut 2.5s ease;
+    }
+    .toast-success { background: #4CAF50; color: white; }
+    .toast-error { background: #ff6b6b; color: white; }
+    .toast-warning { background: #ff9800; color: white; }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateX(100px); }
+      15% { opacity: 1; transform: translateX(0); }
+      85% { opacity: 1; transform: translateX(0); }
+      100% { opacity: 0; transform: translateX(100px); }
+    }
     @media (max-width: 768px) {
       th, td {
         font-size: 12px;
@@ -302,18 +275,14 @@
         <div class="number" id="noCount">0</div>
         <div class="label">Отказы</div>
       </div>
-      <div class="stat-card">
-        <div class="number" id="totalPeople">0</div>
-        <div class="label">Всего человек</div>
-      </div>
     </div>
   </div>
 
-  <div class="action-buttons" style="margin-bottom: 20px;">
+  <div class="action-buttons">
     <button class="btn btn-success" onclick="downloadJSON()">💾 Скачать JSON</button>
-    <button class="btn btn-primary" onclick="copyToClipboard()">📋 Копировать в буфер</button>
-    <button class="btn btn-warning" onclick="clearAllData()">🗑️ Очистить все данные</button>
-    <button class="btn btn-primary" onclick="refreshTable()">🔄 Обновить</button>
+    <button class="btn btn-primary" onclick="copyToClipboard()">📋 Копировать</button>
+    <button class="btn btn-warning" onclick="clearAllData()">🗑️ Очистить всё</button>
+    <button class="btn btn-primary" onclick="loadData()">🔄 Обновить</button>
   </div>
 
   <div class="table-container">
@@ -323,26 +292,24 @@
         <th>#</th>
         <th>Дата</th>
         <th>Имя</th>
-        <th>Email</th>
-        <th>Телефон</th>
         <th>Статус</th>
-        <th>Гостей</th>
-        <th>Блюда</th>
-        <th>Алкоголь</th>
-        <th>Пожелания</th>
         <th>Аллергии</th>
+        <th>Еда</th>
+        <th>Алкоголь</th>
+        <th>Фото</th>
+        <th>Сообщение</th>
         <th>Действия</th>
       </tr>
       </thead>
       <tbody id="tableBody">
       <tr>
-        <td colspan="12" class="empty-state">Загрузка данных...</td>
+        <td colspan="10" class="empty-state">⏳ Загрузка...</td>
       </tr>
       </tbody>
     </table>
   </div>
   <div class="footer">
-    <p>🔒 Данные хранятся в localStorage вашего браузера</p>
+    <p>🔒 Данные хранятся в файле <code>results.json</code> на сервере</p>
   </div>
 </div>
 
@@ -351,16 +318,12 @@
   <div class="modal-content">
     <h3>✏️ Редактирование записи</h3>
     <input type="text" id="editName" placeholder="Имя">
-    <input type="email" id="editEmail" placeholder="Email">
-    <input type="tel" id="editPhone" placeholder="Телефон">
     <select id="editAttendance">
       <option value="exactly">✅ Точно приду</option>
       <option value="probably">🤔 Скорее всего да</option>
       <option value="no">❌ Не приду</option>
     </select>
-    <input type="number" id="editGuestsCount" placeholder="Количество гостей" min="1">
-    <textarea id="editWishes" rows="2" placeholder="Пожелания"></textarea>
-    <textarea id="editAllergies" rows="2" placeholder="Аллергии"></textarea>
+    <textarea id="editMessage" rows="3" placeholder="Сообщение"></textarea>
     <div class="modal-buttons">
       <button class="btn btn-primary" onclick="saveEdit()">💾 Сохранить</button>
       <button class="btn btn-danger" onclick="closeModal()">Отмена</button>
@@ -369,107 +332,86 @@
 </div>
 
 <script>
-  let currentEditId = null;
+  let currentEditIndex = null;
   let allGuests = [];
 
-  // Загрузка данных из localStorage
-  function loadData() {
-    const data = localStorage.getItem('wedding_guests_data');
-    if (data) {
-      try {
-        allGuests = JSON.parse(data);
-        if (!Array.isArray(allGuests)) allGuests = [];
-      } catch(e) {
+  // ===== ЗАГРУЗКА ДАННЫХ =====
+  async function loadData() {
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">⏳ Загрузка данных...</td></tr>';
+
+    try {
+      const response = await fetch('results.json?_=' + Date.now());
+      if (!response.ok) throw new Error('Файл не найден');
+
+      const data = await response.json();
+      allGuests = Array.isArray(data) ? data : [];
+      renderTable();
+      updateStats();
+      showToast('Данные загружены', 'success');
+    } catch (error) {
+      // Если файла нет — создаём пустой
+      if (error.message.includes('404')) {
         allGuests = [];
+        renderTable();
+        updateStats();
+        showToast('Нет сохранённых данных', 'warning');
+      } else {
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">❌ Ошибка: ' + error.message + '</td></tr>';
+        showToast('Ошибка загрузки', 'error');
       }
-    } else {
-      allGuests = [];
     }
-    updateStats();
-    renderTable();
   }
 
-  // Обновление статистики
+  // ===== СТАТИСТИКА =====
   function updateStats() {
     const total = allGuests.length;
     const exactly = allGuests.filter(g => g.attendance === 'exactly').length;
     const probably = allGuests.filter(g => g.attendance === 'probably').length;
     const no = allGuests.filter(g => g.attendance === 'no').length;
-    const totalPeople = allGuests.reduce((sum, g) => sum + (g.guestsCount || 1), 0);
 
     document.getElementById('totalCount').textContent = total;
     document.getElementById('exactlyCount').textContent = exactly;
     document.getElementById('probablyCount').textContent = probably;
     document.getElementById('noCount').textContent = no;
-    document.getElementById('totalPeople').textContent = totalPeople;
   }
 
-  // Получить статус на русском
+  // ===== СТАТУС =====
   function getStatusText(status) {
-    if (status === 'exactly') return '<span class="status-badge status-exactly">✅ Точно придёт</span>';
-    if (status === 'probably') return '<span class="status-badge status-probably">🤔 Возможно</span>';
-    return '<span class="status-badge status-no">❌ Не придёт</span>';
+    const map = {
+      'exactly': '<span class="status-badge status-exactly">✅ Точно придёт</span>',
+      'probably': '<span class="status-badge status-probably">🤔 Возможно</span>',
+      'no': '<span class="status-badge status-no">❌ Не придёт</span>'
+    };
+    return map[status] || status;
   }
 
-  // Форматирование массивов
-  function formatArray(arr) {
+  // ===== ФОРМАТИРОВАНИЕ =====
+  function formatAlcohol(arr) {
     if (!arr || !arr.length) return '-';
     const labels = {
-      'meat': '🥩 Мясо',
-      'poultry': '🍗 Птица',
-      'fish': '🐟 Рыба',
-      'vegan': '🥦 Вегетарианское',
       'wine': '🍷 Вино',
       'champagne': '🥂 Шампанское',
-      'strong': '🥃 Крепкое',
-      'no': '🧃 Не пью',
-      // Добавьте новые значения:
       'beer': '🍺 Пиво',
       'whiskey': '🥃 Виски',
       'cognac': '🥃 Коньяк',
       'liqueur': '🍸 Настойка',
-      'vodka': '🥃 Водка'
+      'vodka': '🥃 Водка',
+      'no': '🧃 Не пью'
     };
     return arr.map(item => labels[item] || item).join(', ');
   }
 
-  // Рендер таблицы
-  function renderTable() {
-    const tbody = document.getElementById('tableBody');
-    if (!allGuests.length) {
-      tbody.innerHTML = '<tr><td colspan="12" class="empty-state">📭 Нет данных. Пригласите гостей заполнить форму!</td></tr>';
-      return;
-    }
-
-    tbody.innerHTML = allGuests.map((guest, index) => {
-      const dishesHtml = guest.dishes ? formatArray(guest.dishes) : '-';
-      const alcoholHtml = guest.alcohol ? formatArray(guest.alcohol) : '-';
-
-      return `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td style="font-size: 12px;">${guest.timestamp || '-'}</td>
-                    <td class="guest-name">${escapeHtml(guest.name)}</td>
-                    <td>${escapeHtml(guest.email || '-')}</td>
-                    <td>${escapeHtml(guest.phone || '-')}</td>
-                    <td>${getStatusText(guest.attendance)}</td>
-                    <td>${guest.guestsCount || 1}</td>
-                    <td style="max-width: 150px;">${dishesHtml}</td>
-                    <td style="max-width: 150px;">${alcoholHtml}</td>
-                    <td style="max-width: 200px;">${escapeHtml(guest.wishes || '-')}</td>
-                    <td style="max-width: 200px;">${escapeHtml(guest.allergies || '-')}</td>
-                    <td>
-                        <div class="action-icons">
-                            <span class="action-icon edit-icon" onclick="openEditModal(${guest.id})" title="Редактировать">✏️</span>
-                            <span class="action-icon delete-icon" onclick="deleteGuest(${guest.id})" title="Удалить">🗑️</span>
-                        </div>
-                    </td>
-                </tr>
-            `;
-    }).join('');
+  function formatPhoto(value) {
+    const map = {
+      'yes': '📸 Да!',
+      'mood': '😊 По настроению',
+      'if': '🤷 Если надо',
+      'no': '🚫 Нет'
+    };
+    return map[value] || value || '-';
   }
 
-  // Экранирование HTML
   function escapeHtml(text) {
     if (!text) return text;
     const div = document.createElement('div');
@@ -477,150 +419,141 @@
     return div.innerHTML;
   }
 
-  // Сохранение данных в localStorage
-  function saveToLocalStorage() {
-    localStorage.setItem('wedding_guests_data', JSON.stringify(allGuests, null, 2));
-    updateStats();
-    renderTable();
-  }
-
-  // Удаление записи
-  function deleteGuest(id) {
-    if (confirm('Вы уверены, что хотите удалить эту запись?')) {
-      allGuests = allGuests.filter(g => g.id !== id);
-      saveToLocalStorage();
-      showToast('Запись удалена', 'success');
+  // ===== РЕНДЕР ТАБЛИЦЫ =====
+  function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    if (!allGuests.length) {
+      tbody.innerHTML = '<tr><td colspan="10" class="empty-state">📭 Нет данных. Пригласите гостей заполнить форму!</td></tr>';
+      return;
     }
+
+    tbody.innerHTML = allGuests.map((guest, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td style="font-size: 12px;">${guest.timestamp || guest.server_timestamp || '-'}</td>
+        <td class="guest-name">${escapeHtml(guest.name)}</td>
+        <td>${getStatusText(guest.attendance)}</td>
+        <td style="max-width: 120px;">${escapeHtml(guest.allergy || '-')}</td>
+        <td style="max-width: 120px;">${escapeHtml(guest.food || '-')}</td>
+        <td style="max-width: 150px;">${formatAlcohol(guest.alcohol)}</td>
+        <td>${formatPhoto(guest.photo)}</td>
+        <td style="max-width: 200px;">${escapeHtml(guest.message || '-')}</td>
+        <td>
+          <div class="action-icons">
+            <span class="action-icon edit-icon" onclick="openEditModal(${index})" title="Редактировать">✏️</span>
+            <span class="action-icon delete-icon" onclick="deleteGuest(${index})" title="Удалить">🗑️</span>
+          </div>
+        </td>
+      </tr>
+    `).join('');
   }
 
-  // Полная очистка
+  // ===== УДАЛЕНИЕ =====
+  function deleteGuest(index) {
+    if (!confirm('Удалить запись?')) return;
+    allGuests.splice(index, 1);
+    saveToServer();
+  }
+
+  // ===== ОЧИСТКА ВСЕХ =====
   function clearAllData() {
-    if (confirm('⚠️ ВНИМАНИЕ! Это действие удалит ВСЕ ответы гостей без возможности восстановления. Продолжить?')) {
-      if (confirm('Вы уверены? Данные будут удалены навсегда!')) {
-        allGuests = [];
-        saveToLocalStorage();
-        showToast('Все данные очищены', 'warning');
+    if (!confirm('⚠️ Удалить ВСЕ данные?')) return;
+    if (!confirm('Вы уверены?')) return;
+    allGuests = [];
+    saveToServer();
+  }
+
+  // ===== СОХРАНЕНИЕ НА СЕРВЕР =====
+  async function saveToServer() {
+    try {
+      const response = await fetch('save.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(allGuests)
+      });
+      const result = await response.json();
+      if (result.success) {
+        renderTable();
+        updateStats();
+        showToast('Сохранено!', 'success');
+      } else {
+        showToast('Ошибка: ' + (result.error || 'неизвестная'), 'error');
       }
+    } catch (error) {
+      showToast('Ошибка соединения', 'error');
     }
   }
 
-  // Открытие модального окна для редактирования
-  function openEditModal(id) {
-    const guest = allGuests.find(g => g.id === id);
+  // ===== РЕДАКТИРОВАНИЕ =====
+  function openEditModal(index) {
+    const guest = allGuests[index];
     if (!guest) return;
-
-    currentEditId = id;
+    currentEditIndex = index;
     document.getElementById('editName').value = guest.name || '';
-    document.getElementById('editEmail').value = guest.email || '';
-    document.getElementById('editPhone').value = guest.phone || '';
     document.getElementById('editAttendance').value = guest.attendance || 'exactly';
-    document.getElementById('editGuestsCount').value = guest.guestsCount || 1;
-    document.getElementById('editWishes').value = guest.wishes || '';
-    document.getElementById('editAllergies').value = guest.allergies || '';
-
+    document.getElementById('editMessage').value = guest.message || '';
     document.getElementById('editModal').style.display = 'flex';
   }
 
-  // Сохранение изменений
   function saveEdit() {
-    const index = allGuests.findIndex(g => g.id === currentEditId);
-    if (index === -1) return;
-
-    allGuests[index] = {
-      ...allGuests[index],
+    if (currentEditIndex === null) return;
+    allGuests[currentEditIndex] = {
+      ...allGuests[currentEditIndex],
       name: document.getElementById('editName').value.trim(),
-      email: document.getElementById('editEmail').value.trim(),
-      phone: document.getElementById('editPhone').value.trim(),
       attendance: document.getElementById('editAttendance').value,
-      guestsCount: parseInt(document.getElementById('editGuestsCount').value) || 1,
-      wishes: document.getElementById('editWishes').value.trim(),
-      allergies: document.getElementById('editAllergies').value.trim(),
+      message: document.getElementById('editMessage').value.trim(),
       editedAt: new Date().toLocaleString('ru-RU')
     };
-
-    saveToLocalStorage();
     closeModal();
-    showToast('Запись обновлена', 'success');
+    saveToServer();
   }
 
   function closeModal() {
     document.getElementById('editModal').style.display = 'none';
-    currentEditId = null;
+    currentEditIndex = null;
   }
 
-  // Скачать JSON
+  // ===== СКАЧАТЬ JSON =====
   function downloadJSON() {
-    const data = JSON.stringify(allGuests, null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(allGuests, null, 2)], { type: 'application/json;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `wedding_guests_${new Date().toISOString().slice(0, 19)}.json`;
+    a.download = `guests_${new Date().toISOString().slice(0,10)}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('JSON файл скачан', 'success');
+    showToast('JSON скачан', 'success');
   }
 
-  // Копирование в буфер обмена
+  // ===== КОПИРОВАТЬ =====
   async function copyToClipboard() {
-    const data = JSON.stringify(allGuests, null, 2);
     try {
-      await navigator.clipboard.writeText(data);
-      showToast('Данные скопированы в буфер обмена', 'success');
+      await navigator.clipboard.writeText(JSON.stringify(allGuests, null, 2));
+      showToast('Скопировано!', 'success');
     } catch(e) {
       alert('Не удалось скопировать');
     }
   }
 
-  // Обновить таблицу
-  function refreshTable() {
-    loadData();
-    showToast('Данные обновлены', 'success');
-  }
-
-  // Всплывающее уведомление
+  // ===== ТОСТ =====
   function showToast(message, type) {
     const toast = document.createElement('div');
     toast.textContent = message;
-    toast.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: ${type === 'success' ? '#4CAF50' : type === 'warning' ? '#ff9800' : '#667eea'};
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            z-index: 1000;
-            animation: fadeInOut 2s ease;
-            font-weight: 500;
-        `;
+    toast.className = 'toast toast-' + (type || 'success');
     document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2000);
+    setTimeout(() => toast.remove(), 2500);
   }
 
-  // Добавляем анимацию
-  const style = document.createElement('style');
-  style.textContent = `
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateX(100px); }
-            15% { opacity: 1; transform: translateX(0); }
-            85% { opacity: 1; transform: translateX(0); }
-            100% { opacity: 0; transform: translateX(100px); }
-        }
-    `;
-  document.head.appendChild(style);
-
-  // Закрытие модального окна по клику вне
+  // ===== ЗАКРЫТИЕ МОДАЛКИ ПО КЛИКУ ВНЕ =====
   window.onclick = function(event) {
-    const modal = document.getElementById('editModal');
-    if (event.target === modal) {
+    if (event.target === document.getElementById('editModal')) {
       closeModal();
     }
   };
 
-  // Загрузка при старте
+  // ===== ЗАПУСК =====
   loadData();
 </script>
 </body>

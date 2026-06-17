@@ -33,6 +33,7 @@ body {
 
 h2 {
     font-weight: 400;
+    line-height: 1;
 }
 
 /* ===== DESKTOP NOTIFICATION ===== */
@@ -125,7 +126,7 @@ img {
     justify-content: flex-start;
     padding: 60px 20px 40px;
     color: white;
-    padding-bottom: 230px;
+    padding-bottom: 270px;
 }
 .hero__line {
     margin-top: 60px;
@@ -140,7 +141,7 @@ img {
     font-weight: normal;
     color: white;
     line-height: 1;
-    margin-top: 8px;
+    margin-top: -10px;
     letter-spacing: 4px;
     text-shadow: 0 4px 20px rgba(0,0,0,0.2);
     text-align: center;
@@ -164,7 +165,7 @@ img {
     color: white;
     background: transparent;
     backdrop-filter: blur(2px);
-    padding: 12px 24px;
+    padding: 16px 24px 0px 24px;
     border-radius: 60px;
     max-width: 100%;
     text-align: center;
@@ -176,9 +177,9 @@ img {
 /* ===== LOVE BLOCK ===== */
 .love-block {
     background: #F4F4F4;
-    border-radius: 245px 245px 0 0;
+    border-radius: 175px 175px 0 0;
     margin-top: -190px;
-    padding: 170px 20px 110px;
+    padding: 135px 20px 136px;
     position: relative;
     z-index: 2;
     display: flex;
@@ -188,12 +189,13 @@ img {
 }
 .love-block__image {
     width: 235px;
-    height: 370px;
+    height: 355px;
     object-fit: contain;
     margin: 0 auto;
+    box-shadow: 2px 2px 6px -3px rgba(0, 0, 0, 0.3);
 }
 .love-block__line {
-    margin-top: 6px;
+    margin-top: 23px;
     width: 40px;
     height: 2px;
     border-top: 2px solid rgba(0, 0, 0, 0.45);
@@ -202,11 +204,11 @@ img {
 .love-block__text {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     letter-spacing: 0.04em;
     color: #000000;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    margin-top: 16px;
+    margin-bottom: 15px;
     text-transform: uppercase;
 }
 .love-block__big {
@@ -216,13 +218,13 @@ img {
     color: #000000;
     letter-spacing: 2px;
     margin-top: 0;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 /* ===== RED BANNER ===== */
 .red-banner {
     background: #C40E3A;
-    padding: 75px 24px 0;
+    padding: 81px 24px 0;
     color: white;
     text-align: center;
     border-radius: 0;
@@ -256,7 +258,7 @@ img {
     display: block;
     object-fit: cover;
     max-height: 300px;
-    padding-bottom: 55px;
+    padding-bottom: 80px;
 }
 
 /* ===== VENUE ===== */
@@ -277,7 +279,7 @@ img {
     font-weight: 400;
     font-size: 20px;
     color: #000000;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 .venue__addr {
     font-family: 'Inter', sans-serif;
@@ -293,8 +295,8 @@ img {
     font-size: 14px;
     color: #000000;
     text-decoration: underline;
-    margin-top: 16px;
-    margin-bottom: 40px;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 .venue__carousel {
     position: relative;
@@ -348,7 +350,7 @@ img {
 /* ===== TIMING ===== */
 .timing {
     background: #F4F4F4;
-    padding: 40px 25px 60px;
+    padding: 40px 25px 80px;
 }
 .timing__title {
     font-family: 'Valisca', serif;
@@ -356,7 +358,7 @@ img {
     text-align: center;
     color: #000000;
     letter-spacing: 0.04em;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 .timing__sub {
     font-family: 'Inter', sans-serif;
@@ -377,14 +379,18 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+.timing-item:last-child {
+    margin-bottom: 0;
+}
 .timing-item__icon {
+    flex: 42%;
     width: 100px;
     height: 100px;
     flex-shrink: 0;
     object-fit: contain;
 }
 .timing-item__content {
-    flex: 1;
+    flex: 58%;
 }
 .timing-item__time {
     font-family: 'Inter', sans-serif;
@@ -414,7 +420,7 @@ img {
 /* ===== DETAILS ===== */
 .details {
     background: #F4F4F4;
-    padding: 20px 20px 60px;
+    padding: 20px 20px 80px;
     text-align: center;
 }
 .details__title {
@@ -442,13 +448,28 @@ img {
     line-height: 1.6;
 }
 .details__text--bold {
-    margin-bottom: 30px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.details__icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin: 38px auto 16px;
+}
+
+.details__icon_empty {
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin: 20px auto 16px;
 }
 
 /* ===== FORM ===== */
 .form-section {
     background: #F4F4F4;
-    padding: 20px 20px 60px;
+    padding: 0 20px 60px;
 }
 .form-section__title {
     font-family: 'Valisca', serif;
@@ -464,7 +485,7 @@ img {
     text-align: center;
     color: #000000;
     max-width: 300px;
-    margin: 8px auto 24px;
+    margin: 20px auto;
     line-height: 1.5;
 }
 .wedding-form {
@@ -756,12 +777,12 @@ img {
 }
 .footer-block {
     background: #F4F4F4;
-    padding: 0 20px 24px;
+    padding: 0 20px;
     text-align: center;
 }
 .footer-block__image {
     max-width: 375px;
-    margin: 0 auto 40px;
+    margin: 0 auto;
     width: 100%;
     object-fit: cover;
     max-height: 400px;

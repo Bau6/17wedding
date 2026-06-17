@@ -1,4 +1,4 @@
-(function() {
+(function () {
     // Carousel with drag/swipe support
     var track = document.getElementById('carouselTrack');
     var dots = document.querySelectorAll('#carouselDots span');
@@ -15,42 +15,42 @@
         current = index;
         var translateX = -current * 100;
         track.style.transform = 'translateX(' + translateX + '%)';
-        dots.forEach(function(dot, i) {
+        dots.forEach(function (dot, i) {
             dot.classList.toggle('active', i === current);
         });
     }
 
     // Auto play
-    var autoPlayInterval = setInterval(function() {
+    var autoPlayInterval = setInterval(function () {
         goTo(current + 1);
-    }, 3000);
+    }, 8000);
 
     function stopAutoPlay() {
         clearInterval(autoPlayInterval);
-        autoPlayInterval = setInterval(function() {
+        autoPlayInterval = setInterval(function () {
             goTo(current + 1);
-        }, 3000);
+        }, 8000);
     }
 
     // Touch events
-    carousel.addEventListener('touchstart', function(e) {
+    carousel.addEventListener('touchstart', function (e) {
         var touch = e.touches[0];
         startPos = touch.clientX;
         isDragging = true;
         startTime = Date.now();
         track.style.transition = 'none';
-    }, { passive: true });
+    }, {passive: true});
 
-    carousel.addEventListener('touchmove', function(e) {
+    carousel.addEventListener('touchmove', function (e) {
         if (!isDragging) return;
         var touch = e.touches[0];
         var diff = touch.clientX - startPos;
         var percent = (diff / carousel.offsetWidth) * 100;
         var currentPercent = -current * 100;
         track.style.transform = 'translateX(' + (currentPercent + percent) + '%)';
-    }, { passive: true });
+    }, {passive: true});
 
-    carousel.addEventListener('touchend', function(e) {
+    carousel.addEventListener('touchend', function (e) {
         if (!isDragging) return;
         isDragging = false;
         track.style.transition = 'transform 0.5s ease';
@@ -69,10 +69,10 @@
             goTo(current);
         }
         stopAutoPlay();
-    }, { passive: true });
+    }, {passive: true});
 
     // Mouse events
-    carousel.addEventListener('mousedown', function(e) {
+    carousel.addEventListener('mousedown', function (e) {
         isDragging = true;
         startPos = e.clientX;
         track.style.transition = 'none';
@@ -80,7 +80,7 @@
         e.preventDefault();
     });
 
-    carousel.addEventListener('mousemove', function(e) {
+    carousel.addEventListener('mousemove', function (e) {
         if (!isDragging) return;
         var diff = e.clientX - startPos;
         var percent = (diff / carousel.offsetWidth) * 100;
@@ -88,7 +88,7 @@
         track.style.transform = 'translateX(' + (currentPercent + percent) + '%)';
     });
 
-    carousel.addEventListener('mouseup', function(e) {
+    carousel.addEventListener('mouseup', function (e) {
         if (!isDragging) return;
         isDragging = false;
         track.style.transition = 'transform 0.5s ease';
@@ -106,7 +106,7 @@
         stopAutoPlay();
     });
 
-    carousel.addEventListener('mouseleave', function() {
+    carousel.addEventListener('mouseleave', function () {
         if (isDragging) {
             isDragging = false;
             track.style.transition = 'transform 0.5s ease';
@@ -115,8 +115,8 @@
         }
     });
 
-    dots.forEach(function(dot, i) {
-        dot.addEventListener('click', function() {
+    dots.forEach(function (dot, i) {
+        dot.addEventListener('click', function () {
             goTo(i);
             stopAutoPlay();
         });
@@ -129,8 +129,8 @@
     var extraFields = document.getElementById('extraFields');
     var messageDiv = document.getElementById('formMessage');
 
-    attendanceRadios.forEach(function(radio) {
-        radio.addEventListener('change', function() {
+    attendanceRadios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
             extraFields.style.display = (this.value === 'exactly') ? 'block' : 'none';
         });
     });
@@ -139,22 +139,24 @@
     function getCheckedValues(name) {
         var checkboxes = document.querySelectorAll('input[name="' + name + '"]:checked');
         var values = [];
-        checkboxes.forEach(function(cb) {
+        checkboxes.forEach(function (cb) {
             values.push(cb.value);
         });
         return values;
     }
 
-    form.addEventListener('submit', function(e) {
+    // ===== ОТПРАВКА ФОРМЫ НА СЕРВЕР =====
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
-        var name = nameInput.value.trim();
+
+        const name = nameInput.value.trim();
         if (!name) {
             showMessage('Пожалуйста, укажите ваше имя', 'error');
             return;
         }
 
-        var attendance = null;
-        for (var i = 0; i < attendanceRadios.length; i++) {
+        let attendance = null;
+        for (let i = 0; i < attendanceRadios.length; i++) {
             if (attendanceRadios[i].checked) {
                 attendance = attendanceRadios[i].value;
                 break;
@@ -165,36 +167,69 @@
             return;
         }
 
-        var guest = {
+        // Собираем данные
+        const guestData = {
             id: Date.now(),
             name: name,
             attendance: attendance,
-            allergy: document.getElementById('allergy') ? document.getElementById('allergy').value : '',
-            food: document.getElementById('food') ? document.getElementById('food').value : '',
-            alcohol: getCheckedValues('alcohol'), // теперь массив
-            photo: document.querySelector('input[name="photo"]:checked') ? document.querySelector('input[name="photo"]:checked').value : '',
-            message: document.getElementById('message') ? document.getElementById('message').value : '',
+            allergy: document.getElementById('allergy')?.value || '',
+            food: document.getElementById('food')?.value || '',
+            alcohol: getCheckedValues('alcohol'),
+            photo: document.querySelector('input[name="photo"]:checked')?.value || '',
+            message: document.getElementById('message')?.value || '',
             timestamp: new Date().toLocaleString('ru-RU')
         };
 
-        var all = JSON.parse(localStorage.getItem('wedding_guests_data') || '[]');
-        all.push(guest);
-        localStorage.setItem('wedding_guests_data', JSON.stringify(all, null, 2));
+        try {
+            // Отправляем на сервер
+            const response = await fetch('save.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(guestData)
+            });
 
-        showMessage('Спасибо, ' + name + '! Ваш ответ сохранён.', 'success');
-        form.reset();
-        extraFields.style.display = 'none';
+            const result = await response.json();
 
-        // Сбрасываем чекбоксы
-        document.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
-            cb.checked = false;
-        });
+            if (result.success) {
+                showMessage('Спасибо, ' + name + '! Ваш ответ сохранён. ❤️', 'success');
+                form.reset();
+                extraFields.style.display = 'none';
 
-        setTimeout(function() {
-            messageDiv.className = 'form-message';
-            messageDiv.style.display = 'none';
-        }, 4000);
+                // Сбрасываем чекбоксы
+                document.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+                    cb.checked = false;
+                });
+
+                setTimeout(function () {
+                    messageDiv.className = 'form-message';
+                    messageDiv.style.display = 'none';
+                }, 4000);
+            } else {
+                showMessage('Ошибка: ' + (result.error || 'неизвестная'), 'error');
+            }
+        } catch (error) {
+            showMessage('Ошибка соединения. Попробуйте позже.', 'error');
+            console.error('Error:', error);
+        }
     });
+
+// Функция для получения выбранных чекбоксов
+    function getCheckedValues(name) {
+        var checkboxes = document.querySelectorAll('input[name="' + name + '"]:checked');
+        var values = [];
+        checkboxes.forEach(function (cb) {
+            values.push(cb.value);
+        });
+        return values;
+    }
+
+    function showMessage(text, type) {
+        messageDiv.textContent = text;
+        messageDiv.className = 'form-message ' + type;
+        messageDiv.style.display = 'block';
+    }
 
     function showMessage(text, type) {
         messageDiv.textContent = text;
@@ -203,7 +238,7 @@
     }
 
     // ===== ФУНКЦИЯ ДЛЯ СКАЧИВАНИЯ JSON =====
-    window.downloadGuestData = function() {
+    window.downloadGuestData = function () {
         var data = localStorage.getItem('wedding_guests_data');
         if (!data) {
             alert('Нет сохранённых данных');
@@ -215,7 +250,7 @@
                 alert('Нет данных для скачивания');
                 return;
             }
-            var blob = new Blob([JSON.stringify(guests, null, 2)], { type: 'application/json' });
+            var blob = new Blob([JSON.stringify(guests, null, 2)], {type: 'application/json'});
             var url = URL.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = url;
@@ -224,13 +259,13 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        } catch(e) {
+        } catch (e) {
             alert('Ошибка при скачивании');
         }
     };
 
     // ===== ФУНКЦИЯ ДЛЯ ПРОСМОТРА ОТВЕТОВ =====
-    window.showGuestResponses = function() {
+    window.showGuestResponses = function () {
         var data = localStorage.getItem('wedding_guests_data');
         if (!data) {
             alert('Пока нет ни одного ответа');
@@ -243,7 +278,7 @@
                 return;
             }
             var message = '📊 Всего ответов: ' + guests.length + '\n\n';
-            guests.forEach(function(guest, i) {
+            guests.forEach(function (guest, i) {
                 var statusText = '';
                 if (guest.attendance === 'exactly') statusText = '✅ Точно придёт';
                 else if (guest.attendance === 'probably') statusText = '🤔 Возможно придёт';
@@ -261,13 +296,13 @@
             message += '\n📥 Скачать JSON: введите в консоли downloadGuestData()';
             alert(message);
             console.log('Все ответы:', guests);
-        } catch(e) {
+        } catch (e) {
             alert('Ошибка чтения данных');
         }
     };
 
     // Desktop notice
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         var notice = document.getElementById('desktopNotice');
         if (window.innerWidth <= 800) {
             notice.style.display = 'none';
